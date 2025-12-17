@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.mfxcore.controls.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox id="rootPane" fx:id="rootPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" stylesheets="@loginScreen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.LoginController">
+   <children>
+      <StackPane alignment="CENTER_RIGHT" prefHeight="480.0" prefWidth="660.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" styleClass="container">
+               <children>
+                  <VBox fx:id="leftVBox" alignment="CENTER" prefHeight="200.0" prefWidth="330.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="signInLabel" text="Sign In">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="60.0" />
+                           </VBox.margin>
+                        </Label>
+                        <MFXTextField fx:id="usernameInput" floatMode="BORDER" floatingText="Username" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXTextField fx:id="passwordInput" floatMode="BORDER" floatingText="Password" prefWidth="200.0" />
+                        <MFXButton fx:id="signInLog" styleClass="firstButton" text="Sign In">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                        </MFXButton>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="rightVBox" alignment="CENTER" prefHeight="200.0" prefWidth="330.0">
+                     <children>
+                        <Label fx:id="signUpLabel" text="Sign Up">
+                           <font>
+                              <Font name="System Bold" size="48.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <MFXTextField fx:id="usernameInputReg" floatMode="BORDER" floatingText="Username" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXTextField fx:id="firstNameInput" floatMode="BORDER" floatingText="First Name" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXTextField fx:id="lastNameInput" floatMode="BORDER" floatingText="Last Name" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXTextField fx:id="passwordInputReg" floatMode="BORDER" floatingText="Password" prefWidth="200.0">
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </MFXTextField>
+                        <MFXTextField fx:id="confirmPasswordInput" floatMode="BORDER" floatingText="Confirm Password" prefWidth="200.0" />
+                        <MFXButton fx:id="signUpButtonReg" styleClass="firstButton" text="Sign Up">
+                           <VBox.margin>
+                              <Insets top="30.0" />
+                           </VBox.margin>
+                        </MFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox fx:id="wrapVBox" alignment="CENTER" maxWidth="330.0" prefHeight="200.0" prefWidth="330.0" style="-fx-background-color: linear-gradient(to right, #FF4B2B, #FF416C);">
+               <children>
+                  <Label id="helloLabel" fx:id="helloLabel" text="Hello, Friend!" textFill="WHITE">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <MFXButton id="signUpButton" fx:id="tempButton" styleClass="secondButton" text="Sign Up" />
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+   <padding>
+      <Insets bottom="50.0" left="150.0" right="150.0" top="50.0" />
+   </padding>
+</VBox>
