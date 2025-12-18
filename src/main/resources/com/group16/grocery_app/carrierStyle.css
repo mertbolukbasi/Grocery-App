@@ -1,0 +1,91 @@
+.top-bar {
+    -fx-background-color: linear-gradient(to right, #FF4B2B, #FF416C);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 0, 0, 0, 4);
+}
+
+.tab-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #666666;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-border-width: 0 0 3px 0;
+}
+
+.tab-button:hover {
+    -fx-background-color: #f9f9f9;
+    -fx-text-fill: #FF4B2B;
+}
+
+.tab-button-active {
+    -fx-background-color: white;
+    -fx-text-fill: #FF4B2B;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-border-color: #FF4B2B;
+    -fx-border-width: 0 0 3px 0;
+}
+
+.action-button {
+    -fx-background-color: #FF4B2B;
+    -fx-text-fill: white;
+    -fx-background-radius: 20px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0, 0, 2);
+}
+
+.action-button:pressed {
+    -fx-background-color: #e04124;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}
+
+.ghost-button {
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 20px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-padding: 5px 15px;
+    -fx-cursor: hand;
+}
+
+.ghost-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+.table-row-cell:odd {
+    -fx-background-color: white;
+}
+.table-row-cell:even {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-row-cell:filled:selected {
+    -fx-background-color: #ffe0b2;
+    -fx-background-insets: 0;
+}
+
+.table-row-cell:filled:selected .text {
+    -fx-fill: #d84315;
+}
+
+.table-view .table-column {
+    -fx-border-color: transparent #e0e0e0 transparent transparent;
+    -fx-border-width: 1px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #555;
+    -fx-font-weight: bold;
+}
