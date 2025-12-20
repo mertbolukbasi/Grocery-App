@@ -74,3 +74,66 @@ CREATE TABLE UserCoupons (
     FOREIGN KEY (userID) REFERENCES UserInfo(userID),
     FOREIGN KEY (couponID) REFERENCES Coupons(couponID)
 );
+
+INSERT INTO UserInfo (username, password, role, address)
+VALUES
+    ('cust','cust','customer','Istanbul'),
+    ('carr','carr','carrier','Istanbul'),
+    ('own','own','owner','Istanbul'),
+    ('cust1','1234','customer','Kadikoy'),
+    ('cust2','1234','customer','Besiktas'),
+    ('cust3','1234','customer','Sisli');
+
+INSERT INTO ProductInfo (name, type, price, stock, threshold, image_data)
+VALUES
+    ('Apple','fruit',25,100,5,NULL),
+    ('Banana','fruit',18,80,5,NULL),
+    ('Orange','fruit',20,70,5,NULL),
+    ('Strawberry','fruit',45,40,3,NULL),
+    ('Grape','fruit',30,60,4,NULL),
+    ('Pear','fruit',22,50,4,NULL),
+    ('Peach','fruit',28,45,3,NULL),
+    ('Cherry','fruit',55,30,2,NULL),
+    ('Pineapple','fruit',60,25,2,NULL),
+    ('Kiwi','fruit',35,40,3,NULL),
+    ('Mango','fruit',50,35,3,NULL),
+    ('Watermelon','fruit',10,200,20,NULL),
+    ('Tomato','vegetable',15,90,10,NULL),
+    ('Potato','vegetable',10,120,5,NULL),
+    ('Onion','vegetable',8,150,5,NULL),
+    ('Cucumber','vegetable',12,70,5,NULL),
+    ('Pepper','vegetable',20,60,4,NULL),
+    ('Carrot','vegetable',9,80,5,NULL),
+    ('Eggplant','vegetable',14,50,4,NULL),
+    ('Zucchini','vegetable',13,55,4,NULL),
+    ('Spinach','vegetable',11,40,3,NULL),
+    ('Broccoli','vegetable',18,35,3,NULL),
+    ('Cauliflower','vegetable',17,30,3,NULL),
+    ('Lettuce','vegetable',7,60,5,NULL);
+
+INSERT INTO Coupons (code, discount_amount, expired_date, is_active)
+VALUES
+    ('WELCOME10', 10, '2026-01-31', 1),
+    ('LOYAL20', 20, '2026-06-30', 1),
+    ('SPRING15', 15, '2026-04-30', 1),
+    ('VIP25', 25, '2026-12-31', 1),
+    ('Bonus', 99, '2026-02-02', 0),
+    ('OLD5', 5, '2024-12-01', 0);
+
+INSERT INTO UserCoupons (userID, couponID, is_used)
+VALUES
+    (1, 1, 0),
+    (1, 2, 0);
+
+INSERT INTO OrderInfo (customerID, carrierID, delivery_date, status, total_cost, invoice_data, carrier_rating)
+VALUES (1, NULL, NULL, 'Pending', 180.50, NULL, NULL);
+
+INSERT INTO OrderItems (orderID, productID, amount, unit_price)
+VALUES
+    (1, 1, 2.0, 50.00),
+    (1, 7, 3.5, 52.50);
+
+INSERT INTO Messages (senderID, receiverID, content)
+VALUES
+    (1, 3, 'Merhaba, siparişim ne zaman teslim edilecek?'),
+    (3, 1, 'Merhaba, siparişiniz bugün içerisinde hazırlanacaktır.');
