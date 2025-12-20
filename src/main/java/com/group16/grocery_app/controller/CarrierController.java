@@ -49,7 +49,6 @@ public class CarrierController {
     @FXML private TableColumn<Order, Double> colCompTotal;
     @FXML private TableColumn<Order, String> colCompDate;
 
-    // --- BAŞLANGIÇ (INITIALIZE) ---
     @FXML
     public void initialize() {
         orderService = new OrderService();
@@ -63,7 +62,7 @@ public class CarrierController {
         btnTakeOrder.setOnAction(e -> handleTakeOrder());
         btnComplete.setOnAction(e -> handleCompleteOrder());
 
-        btnLogout.setOnAction(e -> System.out.println("Logout")); //Logout class'ı yazılınca buraya eklenecek.
+        btnLogout.setOnAction(e -> System.out.println("Logout")); //Logout class'ı yazılınca buraya eklenecek. Şuan tuşa basınca bir şey olmuyor. Konsola logout yazısı geliyor.
     }
 
     public void setCarrierId(int id) {
@@ -90,9 +89,8 @@ public class CarrierController {
     }
 
     private void refreshTables() {
-        // ID henüz atanmamışsa (0 ise) veritabanına boşuna gitme
+        // burda henüz id 0 olan bi kurye ise sadece aktif siparişleri görüyor hiçbirini alamıyor. Bunu silebiliriz.
         if (currentCarrierId == 0) {
-            // Sadece müsait siparişleri çekebiliriz (ID gerektirmez)
             tableAvailable.getItems().setAll(orderService.getAvailableOrders());
             return;
         }
@@ -102,7 +100,7 @@ public class CarrierController {
         tableCompleted.getItems().setAll(orderService.getOrderHistory(currentCarrierId));
     }
 
-    // --- BUTON İŞLEVLERİ ---
+    // butonlar
 
     private void handleTakeOrder() {
         Order selectedOrder = tableAvailable.getSelectionModel().getSelectedItem();
@@ -148,7 +146,7 @@ public class CarrierController {
         }
     }
 
-    // --- SAYFA GEÇİŞLERİ ---
+    // tablo sayfa geçişleri
     @FXML
     private void handleTabSwitch(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
@@ -183,7 +181,7 @@ public class CarrierController {
         btn.getStyleClass().add("tab-button");
     }
 
-    // --- STANDART ALERT METODU ---
+    // ekrana uyarı gelme şeyi
     // Bu metod sayesinde tek satırda uyarı verebiliyoruz. Bu kısmı Mert'e sor duruma göre kaldır ve geri kalan kısmı güncelle.
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);

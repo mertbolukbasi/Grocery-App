@@ -22,7 +22,7 @@ public class OrderService {
         List<Order> allOrders = orderRepository.findOrdersByCarrier(carrierId);
 
         return allOrders.stream()
-                .filter(order -> "Selected".equalsIgnoreCase(order.getStatus()))
+                .filter(order -> "Selected".equalsIgnoreCase(order.getStatus())) //burdaki ok işareti şu anlama geliyor: order selected ise yap
                 .collect(Collectors.toList());
     }
 
