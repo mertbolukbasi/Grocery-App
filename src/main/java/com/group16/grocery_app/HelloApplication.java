@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
                 .setResolveAssets(true)
                 .build()
                 .setGlobal();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("LoginView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("CarrierView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);
         stage.setTitle("Hello!");
         //stage.setResizable(false);
