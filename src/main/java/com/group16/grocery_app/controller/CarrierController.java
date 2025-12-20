@@ -34,17 +34,20 @@ public class CarrierController {
     @FXML private TableColumn<Order, Integer> colAvId;
     @FXML private TableColumn<Order, String> colAvCust;
     @FXML private TableColumn<Order, String> colAvAddr;
+    @FXML private TableColumn<Order, String> colAvProd;
     @FXML private TableColumn<Order, Double> colAvTotal;
 
     @FXML private TableView<Order> tableCurrent;
     @FXML private TableColumn<Order, Integer> colCurId;
     @FXML private TableColumn<Order, String> colCurAddr;
+    @FXML private TableColumn<Order, String> colCurProd;
     @FXML private TableColumn<Order, Double> colCurTotal;
 
     @FXML private TableView<Order> tableCompleted;
     @FXML private TableColumn<Order, Integer> colCompId;
     @FXML private TableColumn<Order, String> colCompCust;
     @FXML private TableColumn<Order, Double> colCompTotal;
+    @FXML private TableColumn<Order, String> colCompDate;
 
     // --- BAŞLANGIÇ (INITIALIZE) ---
     @FXML
@@ -72,15 +75,18 @@ public class CarrierController {
         colAvId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         colAvCust.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         colAvAddr.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        colAvProd.setCellValueFactory(new PropertyValueFactory<>("productList"));
         colAvTotal.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
 
         colCurId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         colCurAddr.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        colCurProd.setCellValueFactory(new PropertyValueFactory<>("productList"));
         colCurTotal.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
 
         colCompId.setCellValueFactory(new PropertyValueFactory<>("orderId"));
         colCompCust.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         colCompTotal.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
+        colCompDate.setCellValueFactory(new PropertyValueFactory<>("deliveryDate"));
     }
 
     private void refreshTables() {

@@ -12,12 +12,11 @@ public class Order {
     private String status;
     private int carrierId;
 
-    public Order(int orderId, String productList, String customerName, String customerAddress,
-                 double totalAmount, LocalDateTime requestedDate, String status) {
+    public Order(int orderId, String customerName, String customerAddress, String productList, double totalAmount, LocalDateTime requestedDate, String status) {
         this.orderId = orderId;
-        this.productList = productList;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
+        this.productList = productList;
         this.totalAmount = totalAmount;
         this.requestedDate = requestedDate;
         this.status = status;

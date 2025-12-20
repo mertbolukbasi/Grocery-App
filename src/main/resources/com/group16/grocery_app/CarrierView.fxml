@@ -73,7 +73,8 @@
                         <columns>
                             <TableColumn fx:id="colAvId" prefWidth="50.0" text="ID" />
                             <TableColumn fx:id="colAvCust" prefWidth="150.0" text="Customer" />
-                            <TableColumn fx:id="colAvAddr" prefWidth="250.0" text="Address" />
+                            <TableColumn fx:id="colAvAddr" prefWidth="200.0" text="Address" />
+                            <TableColumn fx:id="colAvProd" prefWidth="200.0" text="Products" />
                             <TableColumn fx:id="colAvTotal" prefWidth="100.0" text="Total (TL)" />
                         </columns>
                         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
@@ -92,7 +93,8 @@
                     <TableView fx:id="tableCurrent" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="colCurId" prefWidth="50.0" text="ID" />
-                            <TableColumn fx:id="colCurAddr" prefWidth="300.0" text="Address" />
+                            <TableColumn fx:id="colCurAddr" prefWidth="250.0" text="Address" />
+                            <TableColumn fx:id="colCurProd" prefWidth="200.0" text="Products" />
                             <TableColumn fx:id="colCurTotal" prefWidth="100.0" text="Total (TL)" />
                         </columns>
                         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
@@ -115,6 +117,7 @@
                             <TableColumn fx:id="colCompId" prefWidth="50.0" text="ID" />
                             <TableColumn fx:id="colCompCust" prefWidth="150.0" text="Customer" />
                             <TableColumn fx:id="colCompTotal" prefWidth="100.0" text="Total (TL)" />
+                            <TableColumn fx:id="colCompDate" prefWidth="150.0" text="Delivered Date" />
                         </columns>
                         <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
                     </TableView>
