@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="ownerRoot"
+            prefHeight="540.0" prefWidth="960.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.group16.grocery_app.controller.OwnerController"
+            stylesheets="@ownerScreen.css">
+
+    <top>
+        <HBox fx:id="ownerTopBar" alignment="CENTER_LEFT" spacing="10.0" styleClass="owner-topbar" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="14.0" right="14.0" bottom="14.0" left="14.0"/>
+            </padding>
+            <children>
+                <Label fx:id="ownerLblAppTitle" text="Group16 GreenGrocer" styleClass="owner-topbar-title"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label fx:id="ownerLblUsername" text="owner_username" styleClass="owner-topbar-username"/>
+                <MFXButton fx:id="ownerBtnLogout" text="Logout" styleClass="owner-logout-btn"/>
+            </children>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox fx:id="ownerNavBox" prefHeight="200.0" prefWidth="210.0" spacing="8.0" styleClass="owner-navbox" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="12.0" />
+            </padding>
+            <children>
+                <MFXButton fx:id="ownerBtnDashboard" maxWidth="Infinity" styleClass="owner-nav-btn-active" text="Dashboard" />
+                <MFXButton fx:id="ownerBtnProducts" maxWidth="Infinity" styleClass="owner-nav-btn" text="Products" />
+                <MFXButton fx:id="ownerBtnCarriers" maxWidth="Infinity" styleClass="owner-nav-btn" text="Carriers" />
+                <MFXButton fx:id="ownerBtnOrders" maxWidth="Infinity" styleClass="owner-nav-btn" text="Orders" />
+                <MFXButton fx:id="ownerBtnMessages" maxWidth="Infinity" styleClass="owner-nav-btn" text="Messages" />
+                <MFXButton fx:id="ownerBtnCoupons" maxWidth="Infinity" styleClass="owner-nav-btn" text="Coupons" />
+                <MFXButton fx:id="ownerBtnLoyalty" maxWidth="Infinity" styleClass="owner-nav-btn" text="Loyalty" />
+                <MFXButton fx:id="ownerBtnRatings" maxWidth="Infinity" styleClass="owner-nav-btn" text="Ratings" />
+                <MFXButton fx:id="ownerBtnReports" maxWidth="Infinity" styleClass="owner-nav-btn" text="Reports" />
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="ownerContentStack" BorderPane.alignment="CENTER">
+
+            <children>
+
+                <AnchorPane fx:id="ownerPaneDashboard">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="720.0" spacing="18.0">
+
+                            <children>
+                                <Label text="Dashboard" styleClass="owner-page-title"/>
+
+                                <HBox spacing="14.0">
+                                    <children>
+                                        <VBox prefWidth="220.0" spacing="4.0" styleClass="owner-stat-card-large">
+                                            <children>
+                                                <Label text="Total Products"/>
+                                                <Label fx:id="ownerLblTotalProductsValue" text="0" styleClass="owner-stat-value"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox prefWidth="220.0" spacing="4.0" styleClass="owner-stat-card">
+                                            <children>
+                                                <Label text="Low Stock"/>
+                                                <Label fx:id="ownerLblLowStockValue" text="0" styleClass="owner-stat-value"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox prefWidth="220.0" spacing="4.0" styleClass="owner-stat-card">
+                                            <children>
+                                                <Label text="Pending Orders"/>
+                                                <Label fx:id="ownerLblPendingOrdersValue" text="0" styleClass="owner-stat-value"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <TabPane fx:id="ownerTabDashboard" prefWidth="720.0" prefHeight="320.0">
+                                    <tabs>
+
+                                        <Tab text="Low Stock">
+                                            <content>
+                                                <VBox spacing="10.0">
+                                                    <children>
+                                                        <TableView fx:id="ownerTblLowStock" prefHeight="260.0">
+                                                            <columns>
+                                                                <TableColumn fx:id="ownerColLowStockName" text="Name" prefWidth="170.0"/>
+                                                                <TableColumn fx:id="ownerColLowStockType" text="Type" prefWidth="140.0"/>
+                                                                <TableColumn fx:id="ownerColLowStockStock" text="Stock" prefWidth="120.0"/>
+                                                                <TableColumn fx:id="ownerColLowStockThreshold" text="Threshold" prefWidth="140.0"/>
+                                                            </columns>
+                                                        </TableView>
+                                                    </children>
+                                                </VBox>
+                                            </content>
+                                        </Tab>
+
+                                        <Tab text="Pending Orders">
+                                            <content>
+                                                <VBox spacing="10.0">
+                                                    <children>
+                                                        <TableView fx:id="ownerTblPendingOrders" prefHeight="260.0">
+                                                            <columns>
+                                                                <TableColumn fx:id="ownerColPendingOrderId" text="Order ID" prefWidth="100.0"/>
+                                                                <TableColumn fx:id="ownerColPendingCustomer" text="Customer" prefWidth="180.0"/>
+                                                                <TableColumn fx:id="ownerColPendingAddress" text="Address" prefWidth="230.0"/>
+                                                                <TableColumn fx:id="ownerColPendingDate" text="Requested Date" prefWidth="140.0"/>
+                                                                <TableColumn fx:id="ownerColPendingStatus" text="Status" prefWidth="110.0"/>
+                                                            </columns>
+                                                        </TableView>
+                                                    </children>
+                                                </VBox>
+                                            </content>
+                                        </Tab>
+
+                                    </tabs>
+                                </TabPane>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneProducts" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Products" styleClass="owner-page-title"/>
+
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfProductSearch" floatMode="BORDER" floatingText="Search by name/type..." prefWidth="280.0"/>
+                                        <MFXButton fx:id="ownerBtnProductClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <TableView fx:id="ownerTblProducts" prefHeight="420.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColProductName" text="Name" prefWidth="160.0"/>
+                                                <TableColumn fx:id="ownerColProductType" text="Type" prefWidth="120.0"/>
+                                                <TableColumn fx:id="ownerColProductPrice" text="Price" prefWidth="90.0"/>
+                                                <TableColumn fx:id="ownerColProductStock" text="Stock" prefWidth="90.0"/>
+                                                <TableColumn fx:id="ownerColProductThreshold" text="Threshold" prefWidth="110.0"/>
+                                            </columns>
+                                        </TableView>
+
+                                        <VBox prefWidth="290.0" spacing="12.0" styleClass="owner-form-card">
+                                            <children>
+                                                <Label text="Product Form" styleClass="owner-section-title"/>
+
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints halignment="RIGHT" prefWidth="90.0"/>
+                                                        <ColumnConstraints prefWidth="170.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label text="Name" GridPane.rowIndex="0"/>
+                                                        <MFXTextField fx:id="ownerTfProductName" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                                                        <Label text="Type" GridPane.rowIndex="1"/>
+                                                        <MFXComboBox fx:id="ownerCbProductType" prefWidth="160.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                                                        <Label text="Price" GridPane.rowIndex="2"/>
+                                                        <MFXTextField fx:id="ownerTfProductPrice" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                                                        <Label text="Stock" GridPane.rowIndex="3"/>
+                                                        <MFXTextField fx:id="ownerTfProductStock" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                                                        <Label text="Threshold" GridPane.rowIndex="4"/>
+                                                        <MFXTextField fx:id="ownerTfProductThreshold" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+                                                        <Label text="Product Image" GridPane.rowIndex="5"/>
+                                                        <HBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                                            <children>
+                                                                <MFXButton fx:id="ownerBtnProductUpload" text="Upload" styleClass="owner-btn-outline-primary"/>
+                                                                <MFXButton fx:id="ownerBtnProductImageView" text="Image View" styleClass="owner-btn-icon"/>
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </GridPane>
+
+                                                <ImageView fx:id="ownerImgProduct" fitHeight="110.0" fitWidth="220.0" preserveRatio="true"/>
+
+                                                <Region prefHeight="6.0"/>
+
+                                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                                    <children>
+                                                        <MFXButton fx:id="ownerBtnProductSave" text="Save" styleClass="owner-btn-primary-bold"/>
+                                                        <MFXButton fx:id="ownerBtnProductDelete" text="Delete" styleClass="owner-btn-outline-danger"/>
+                                                    </children>
+                                                </HBox>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneCarriers" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Carriers" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfCarrierSearch" floatMode="BORDER" floatingText="Search carrier..." prefWidth="280.0"/>
+                                        <MFXButton fx:id="ownerBtnCarrierClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <TableView fx:id="ownerTblCarriers" prefHeight="420.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColCarrierUsername" text="Username" prefWidth="120.0"/>
+                                                <TableColumn fx:id="ownerColCarrierFullName" text="Full Name" prefWidth="160.0"/>
+                                                <TableColumn fx:id="ownerColCarrierPhone" text="Phone" prefWidth="120.0"/>
+                                                <TableColumn fx:id="ownerColCarrierVehicle" text="Vehicle" prefWidth="100.0"/>
+                                                <TableColumn fx:id="ownerColCarrierStatus" text="Status" prefWidth="90.0"/>
+                                            </columns>
+                                        </TableView>
+
+                                        <VBox prefWidth="290.0" spacing="12.0" styleClass="owner-form-card">
+                                            <children>
+                                                <Label text="Carrier Form" styleClass="owner-section-title"/>
+
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints halignment="RIGHT" prefWidth="90.0"/>
+                                                        <ColumnConstraints prefWidth="170.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                        <RowConstraints prefHeight="30.0"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label text="Username" GridPane.rowIndex="0"/>
+                                                        <MFXTextField fx:id="ownerTfCarrierUsername" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                                                        <Label text="Full Name" GridPane.rowIndex="1"/>
+                                                        <MFXTextField fx:id="ownerTfCarrierFullName" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                                                        <Label text="Phone" GridPane.rowIndex="2"/>
+                                                        <MFXTextField fx:id="ownerTfCarrierPhone" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                                                        <Label text="Vehicle" GridPane.rowIndex="3"/>
+                                                        <MFXComboBox fx:id="ownerCbCarrierVehicle" prefWidth="160.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                                                        <Label text="Status" GridPane.rowIndex="4"/>
+                                                        <MFXComboBox fx:id="ownerCbCarrierStatus" prefWidth="160.0" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                                    </children>
+                                                </GridPane>
+
+                                                <Region prefHeight="6.0"/>
+
+                                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                                    <children>
+                                                        <MFXButton fx:id="ownerBtnCarrierEmploy" text="Employ" styleClass="owner-btn-primary-bold"/>
+                                                        <MFXButton fx:id="ownerBtnCarrierFire" text="Fire" styleClass="owner-btn-outline-danger"/>
+                                                    </children>
+                                                </HBox>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneOrders" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Orders" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfOrderSearch" floatMode="BORDER" floatingText="Search order..." prefWidth="220.0"/>
+                                        <MFXButton fx:id="ownerBtnOrderClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                        <Separator orientation="VERTICAL" prefHeight="26.0"/>
+                                        <MFXComboBox fx:id="ownerCbOrderStatus" prefWidth="150.0"/>
+                                        <MFXDatePicker fx:id="ownerDpOrderFrom" prefWidth="140.0"/>
+                                        <MFXDatePicker fx:id="ownerDpOrderTo" prefWidth="140.0"/>
+                                    </children>
+                                </HBox>
+
+                                <TableView fx:id="ownerTblOrders" prefHeight="450.0" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="ownerColOrderId" text="Order ID" prefWidth="90.0"/>
+                                        <TableColumn fx:id="ownerColOrderCustomer" text="Customer" prefWidth="170.0"/>
+                                        <TableColumn fx:id="ownerColOrderAddress" text="Address" prefWidth="220.0"/>
+                                        <TableColumn fx:id="ownerColOrderTotal" text="Total" prefWidth="90.0"/>
+                                        <TableColumn fx:id="ownerColOrderRequestedDate" text="Requested" prefWidth="140.0"/>
+                                        <TableColumn fx:id="ownerColOrderDeliveryDate" text="Delivery" prefWidth="140.0"/>
+                                        <TableColumn fx:id="ownerColOrderStatus" text="Status" prefWidth="100.0"/>
+                                    </columns>
+                                </TableView>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneMessages" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Messages" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfMessageSearch" floatMode="BORDER" floatingText="Search message..." prefWidth="220.0"/>
+                                        <MFXButton fx:id="ownerBtnMessageClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                        <Separator orientation="VERTICAL" prefHeight="26.0"/>
+                                        <MFXComboBox fx:id="ownerCbMessageStatus" prefWidth="150.0"/>
+                                        <MFXDatePicker fx:id="ownerDpMessageFrom" prefWidth="140.0"/>
+                                        <MFXDatePicker fx:id="ownerDpMessageTo" prefWidth="140.0"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <TableView fx:id="ownerTblMessages" prefHeight="450.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColMessageId" text="ID" prefWidth="90.0"/>
+                                                <TableColumn fx:id="ownerColMessageCustomer" text="Customer" prefWidth="150.0"/>
+                                                <TableColumn fx:id="ownerColMessageSubject" text="Subject" prefWidth="170.0"/>
+                                                <TableColumn fx:id="ownerColMessageDate" text="Date" prefWidth="130.0"/>
+                                                <TableColumn fx:id="ownerColMessageStatus" text="Status" prefWidth="90.0"/>
+                                            </columns>
+                                        </TableView>
+
+                                        <VBox prefWidth="290.0" spacing="10.0" styleClass="owner-form-card">
+                                            <children>
+                                                <Label text="Message Detail" styleClass="owner-section-title"/>
+
+                                                <GridPane hgap="10.0" vgap="8.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints halignment="RIGHT" prefWidth="90.0"/>
+                                                        <ColumnConstraints prefWidth="170.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label text="From:" GridPane.rowIndex="0"/>
+                                                        <Label fx:id="ownerLblMsgFromValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                                                        <Label text="Subject:" GridPane.rowIndex="1"/>
+                                                        <Label fx:id="ownerLblMsgSubjectValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                                                        <Label text="Date:" GridPane.rowIndex="2"/>
+                                                        <Label fx:id="ownerLblMsgDateValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                                    </children>
+                                                </GridPane>
+
+                                                <Label text="Body:"/>
+                                                <TextArea fx:id="ownerTaMessageBody" prefHeight="120.0" wrapText="true"/>
+
+                                                <Label text="Reply:"/>
+                                                <TextArea fx:id="ownerTaReply" prefHeight="90.0" wrapText="true"/>
+
+                                                <HBox alignment="CENTER_RIGHT">
+                                                    <children>
+                                                        <MFXButton fx:id="ownerBtnSendReply" text="Send Reply" styleClass="owner-btn-primary"/>
+                                                    </children>
+                                                </HBox>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneCoupons" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Coupons" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfCouponSearch" floatMode="BORDER" floatingText="Search coupon..." prefWidth="220.0"/>
+                                        <MFXButton fx:id="ownerBtnCouponClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                        <Separator orientation="VERTICAL" prefHeight="26.0"/>
+                                        <MFXComboBox fx:id="ownerCbCouponStatusFilter" prefWidth="180.0"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <TableView fx:id="ownerTblCoupons" prefHeight="450.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColCouponCode" text="Code" prefWidth="150.0"/>
+                                                <TableColumn fx:id="ownerColCouponType" text="Type" prefWidth="130.0"/>
+                                                <TableColumn fx:id="ownerColCouponValue" text="Value" prefWidth="100.0"/>
+                                                <TableColumn fx:id="ownerColCouponStatus" text="Status" prefWidth="100.0"/>
+                                            </columns>
+                                        </TableView>
+
+                                        <VBox prefWidth="260.0" styleClass="owner-right-card">
+                                            <children>
+                                                <Label text="Coupon Form" styleClass="owner-section-title"/>
+
+                                                <MFXTextField fx:id="ownerTfCouponCode" floatMode="BORDER" floatingText="Code"/>
+                                                <MFXComboBox fx:id="ownerCbCouponType" prefWidth="220.0"/>
+                                                <MFXTextField fx:id="ownerTfCouponValue" floatMode="BORDER" floatingText="Value"/>
+                                                <MFXComboBox fx:id="ownerCbCouponStatus" prefWidth="220.0"/>
+
+                                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                                    <children>
+                                                        <MFXButton fx:id="ownerBtnCouponSave" text="Save" styleClass="owner-btn-success"/>
+                                                        <MFXButton fx:id="ownerBtnCouponDelete" text="Delete" styleClass="owner-btn-danger"/>
+                                                    </children>
+                                                </HBox>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneLoyalty" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Loyalty" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfLoyaltySearch" floatMode="BORDER" floatingText="Search customer..." prefWidth="220.0"/>
+                                        <MFXButton fx:id="ownerBtnLoyaltyClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <TableView fx:id="ownerTblLoyalty" prefHeight="450.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColLoyaltyCustomer" text="Customer" prefWidth="200.0"/>
+                                                <TableColumn fx:id="ownerColLoyaltyPoints" text="Points" prefWidth="120.0"/>
+                                                <TableColumn fx:id="ownerColLoyaltyTier" text="Tier" prefWidth="120.0"/>
+                                            </columns>
+                                        </TableView>
+
+                                        <VBox prefWidth="260.0" styleClass="owner-right-card">
+                                            <children>
+                                                <Label text="Loyalty Form" styleClass="owner-section-title"/>
+
+                                                <MFXTextField fx:id="ownerTfLoyaltyCustomer" floatMode="BORDER" floatingText="Customer"/>
+                                                <MFXTextField fx:id="ownerTfLoyaltyCurrentPoints" floatMode="BORDER" floatingText="Current Points"/>
+                                                <MFXComboBox fx:id="ownerCbLoyaltyAction" prefWidth="220.0"/>
+                                                <MFXTextField fx:id="ownerTfLoyaltyAmount" floatMode="BORDER" floatingText="Amount"/>
+
+                                                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                                    <children>
+                                                        <MFXButton fx:id="ownerBtnLoyaltySave" text="Save" styleClass="owner-btn-success"/>
+                                                        <MFXButton fx:id="ownerBtnLoyaltyDelete" text="Delete" styleClass="owner-btn-danger"/>
+                                                    </children>
+                                                </HBox>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneRatings" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Ratings" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfRatingSearch" floatMode="BORDER" floatingText="Search rating..." prefWidth="220.0"/>
+                                        <MFXButton fx:id="ownerBtnRatingClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                        <Separator orientation="VERTICAL" prefHeight="26.0"/>
+                                        <MFXComboBox fx:id="ownerCbMinScore" prefWidth="160.0"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <TableView fx:id="ownerTblRatings" prefHeight="450.0" HBox.hgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="ownerColRatingCustomer" text="Customer" prefWidth="170.0"/>
+                                                <TableColumn fx:id="ownerColRatingTarget" text="Target" prefWidth="140.0"/>
+                                                <TableColumn fx:id="ownerColRatingScore" text="Score" prefWidth="80.0"/>
+                                                <TableColumn fx:id="ownerColRatingDate" text="Date" prefWidth="130.0"/>
+                                                <TableColumn fx:id="ownerColRatingStatus" text="Status" prefWidth="100.0"/>
+                                            </columns>
+                                        </TableView>
+
+                                        <VBox prefWidth="260.0" styleClass="owner-right-card">
+                                            <children>
+                                                <Label text="Rating Detail" styleClass="owner-section-title"/>
+
+                                                <GridPane hgap="10.0" vgap="8.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints halignment="RIGHT" prefWidth="90.0"/>
+                                                        <ColumnConstraints prefWidth="150.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label text="Customer:" GridPane.rowIndex="0"/>
+                                                        <Label fx:id="ownerLblRatingCustomerValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                                                        <Label text="Target:" GridPane.rowIndex="1"/>
+                                                        <Label fx:id="ownerLblRatingTargetValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                                                        <Label text="Score:" GridPane.rowIndex="2"/>
+                                                        <Label fx:id="ownerLblRatingScoreValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                                                        <Label text="Date:" GridPane.rowIndex="3"/>
+                                                        <Label fx:id="ownerLblRatingDateValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                                                        <Label text="Status:" GridPane.rowIndex="4"/>
+                                                        <Label fx:id="ownerLblRatingStatusValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                                    </children>
+                                                </GridPane>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+                <AnchorPane fx:id="ownerPaneReports" visible="false" managed="false">
+                    <children>
+                        <VBox layoutX="16.0" layoutY="16.0" prefWidth="730.0" spacing="14.0">
+
+                            <children>
+                                <Label text="Reports" styleClass="owner-page-title"/>
+
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <MFXTextField fx:id="ownerTfReportSearch" floatMode="BORDER" floatingText="Search report..." prefWidth="220.0"/>
+                                        <MFXButton fx:id="ownerBtnReportClearSearch" text="Clear" styleClass="owner-btn-clear"/>
+                                        <Separator orientation="VERTICAL" prefHeight="26.0"/>
+                                        <MFXComboBox fx:id="ownerCbReportType" prefWidth="160.0"/>
+                                        <MFXDatePicker fx:id="ownerDpReportFrom" prefWidth="140.0"/>
+                                        <MFXDatePicker fx:id="ownerDpReportTo" prefWidth="140.0"/>
+                                        <MFXButton fx:id="ownerBtnReportGenerate" text="Generate" styleClass="owner-btn-success"/>
+                                    </children>
+                                </HBox>
+
+                                <HBox spacing="14.0" VBox.vgrow="ALWAYS">
+                                    <children>
+
+                                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <TableView fx:id="ownerTblReports" prefHeight="220.0">
+                                                    <columns>
+                                                        <TableColumn fx:id="ownerColReportName" text="Name" prefWidth="240.0"/>
+                                                        <TableColumn fx:id="ownerColReportValue" text="Value" prefWidth="140.0"/>
+                                                        <TableColumn fx:id="ownerColReportDate" text="Date" prefWidth="140.0"/>
+                                                    </columns>
+                                                </TableView>
+
+                                                <BarChart fx:id="ownerChartReport" prefHeight="210.0" prefWidth="520.0">
+                                                    <xAxis>
+                                                        <CategoryAxis fx:id="ownerAxisReportDate" side="BOTTOM" label="Date" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis fx:id="ownerAxisReportValue" side="LEFT" label="Value" />
+                                                    </yAxis>
+                                                </BarChart>
+
+                                            </children>
+                                        </VBox>
+
+                                        <VBox prefWidth="260.0" styleClass="owner-right-card">
+                                            <children>
+                                                <Label text="Summary" styleClass="owner-section-title"/>
+
+                                                <GridPane hgap="10.0" vgap="10.0">
+                                                    <columnConstraints>
+                                                        <ColumnConstraints halignment="RIGHT" prefWidth="95.0"/>
+                                                        <ColumnConstraints prefWidth="150.0"/>
+                                                    </columnConstraints>
+                                                    <rowConstraints>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                        <RowConstraints prefHeight="24.0"/>
+                                                    </rowConstraints>
+                                                    <children>
+                                                        <Label text="Type:" GridPane.rowIndex="0"/>
+                                                        <Label fx:id="ownerLblReportTypeValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                                                        <Label text="Range:" GridPane.rowIndex="1"/>
+                                                        <Label fx:id="ownerLblReportDateRangeValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                                                        <Label text="Records:" GridPane.rowIndex="2"/>
+                                                        <Label fx:id="ownerLblReportTotalRecordsValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                                                        <Label text="Amount:" GridPane.rowIndex="3"/>
+                                                        <Label fx:id="ownerLblReportTotalAmountValue" text="-" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                                    </children>
+                                                </GridPane>
+
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+
+            </children>
+        </StackPane>
+    </center>
+
+</BorderPane>
