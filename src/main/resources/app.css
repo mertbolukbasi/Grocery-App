@@ -1,0 +1,18 @@
+@import url('appStyles.css');
+
+.button:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.9;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #FFF5F3;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #FFE5E0;
+}
+
+.label:hover {
+    -fx-cursor: default;
+}

@@ -23,7 +23,6 @@
         <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-pane" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED">
             <content>
                 <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20px;">
-                    <!-- Available Orders -->
                     <VBox spacing="10" prefWidth="300" style="-fx-background-color: #FFFFFF; -fx-background-radius: 8px; -fx-padding: 15px;">
                         <Label text="Available Orders" styleClass="subtitle-label"/>
                         <TableView fx:id="availableOrdersTable" prefHeight="400" styleClass="table-view">
@@ -36,7 +35,6 @@
                         <MFXButton text="Select Order" onAction="#handleSelectOrder" styleClass="primary-button"/>
                     </VBox>
 
-                    <!-- Current/Selected Orders -->
                     <VBox spacing="10" prefWidth="300" style="-fx-background-color: #FFFFFF; -fx-background-radius: 8px; -fx-padding: 15px;">
                         <Label text="My Selected Orders" styleClass="subtitle-label"/>
                         <Label text="(Double-click to unselect)" style="-fx-font-size: 11px; -fx-text-fill: #666666;"/>
@@ -50,7 +48,6 @@
                         <MFXButton text="Complete Delivery" onAction="#handleCompleteDelivery" styleClass="primary-button"/>
                     </VBox>
 
-                    <!-- Completed Orders -->
                     <VBox spacing="10" prefWidth="300" style="-fx-background-color: #FFFFFF; -fx-background-radius: 8px; -fx-padding: 15px;">
                         <Label text="Completed Orders" styleClass="subtitle-label"/>
                         <TableView fx:id="completedOrdersTable" prefHeight="400" styleClass="table-view">
