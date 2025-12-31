@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+
+<TabPane stylesheets="@app.css" prefWidth="960" prefHeight="540" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.OwnerController">
+    <style>
+        -fx-background-color: #F5F5F5;
+    </style>
+
+    <tabs>
+        <Tab text="Products">
+            <content>
+                <BorderPane>
+                    <top>
+                        <HBox spacing="15" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+                            <MFXButton text="Add Product" onAction="#handleAddProduct" styleClass="primary-button"/>
+                            <MFXButton text="Update Product" onAction="#handleUpdateProduct" styleClass="secondary-button"/>
+                            <MFXButton text="Remove Product" onAction="#handleRemoveProduct" styleClass="secondary-button"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="ownerUsernameLabel" styleClass="username-label"/>
+                            <MFXButton text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
+                        </HBox>
+                    </top>
+                    <center>
+                        <TableView fx:id="productsTable" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="productIdCol" text="ID" prefWidth="50"/>
+                                <TableColumn fx:id="productNameCol" text="Name" prefWidth="150"/>
+                                <TableColumn fx:id="productTypeCol" text="Type" prefWidth="100"/>
+                                <TableColumn fx:id="productPriceCol" text="Price" prefWidth="100"/>
+                                <TableColumn fx:id="productStockCol" text="Stock" prefWidth="100"/>
+                                <TableColumn fx:id="productThresholdCol" text="Threshold" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+                    </center>
+                </BorderPane>
+            </content>
+        </Tab>
+
+        <Tab text="Orders">
+            <content>
+                <BorderPane>
+                    <top>
+                        <HBox spacing="10" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+                            <Label text="All Orders" styleClass="title-label"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <ComboBox fx:id="orderFilterCombo" promptText="Filter by Status" prefWidth="150"/>
+                        </HBox>
+                    </top>
+                    <center>
+                        <TableView fx:id="ordersTable" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="orderIdCol" text="Order ID" prefWidth="80"/>
+                                <TableColumn fx:id="customerCol" text="Customer" prefWidth="120"/>
+                                <TableColumn fx:id="orderDateCol" text="Order Date" prefWidth="150"/>
+                                <TableColumn fx:id="deliveryDateCol" text="Delivery Date" prefWidth="150"/>
+                                <TableColumn fx:id="statusCol" text="Status" prefWidth="100"/>
+                                <TableColumn fx:id="totalCol" text="Total" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                    </center>
+                </BorderPane>
+            </content>
+        </Tab>
+
+        <Tab text="Carriers">
+            <content>
+                <BorderPane>
+                    <top>
+                        <HBox spacing="15" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+                            <MFXButton text="Add Carrier" onAction="#handleAddCarrier" styleClass="primary-button"/>
+                            <MFXButton text="Remove Carrier" onAction="#handleRemoveCarrier" styleClass="secondary-button"/>
+                        </HBox>
+                    </top>
+                    <center>
+                        <TableView fx:id="carriersTable" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="carrierIdCol" text="ID" prefWidth="50"/>
+                                <TableColumn fx:id="carrierUsernameCol" text="Username" prefWidth="150"/>
+                                <TableColumn fx:id="carrierNameCol" text="Name" prefWidth="200"/>
+                                <TableColumn fx:id="carrierRatingCol" text="Avg Rating" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+                    </center>
+                </BorderPane>
+            </content>
+        </Tab>
+
+        <Tab text="Messages">
+            <content>
+                <SplitPane dividerPositions="0.3">
+                    <items>
+                        <VBox spacing="10" style="-fx-padding: 20px;">
+                            <Label text="Conversations" styleClass="subtitle-label"/>
+                            <ListView fx:id="conversationsList" prefHeight="400"/>
+                        </VBox>
+                        <VBox spacing="10" style="-fx-padding: 20px;">
+                            <Label fx:id="conversationTitleLabel" text="Select a conversation" styleClass="subtitle-label"/>
+                            <ScrollPane fx:id="messagesScrollPane" prefHeight="300">
+                                <content>
+                                    <VBox fx:id="messagesBox" spacing="10"/>
+                                </content>
+                            </ScrollPane>
+                            <HBox spacing="10">
+                                <MFXTextField fx:id="messageInput" floatingText="Type your message..." HBox.hgrow="ALWAYS"/>
+                                <MFXButton text="Send" onAction="#handleSendMessage" styleClass="primary-button"/>
+                            </HBox>
+                        </VBox>
+                    </items>
+                </SplitPane>
+            </content>
+        </Tab>
+
+        <Tab text="Coupons &amp; Loyalty">
+            <content>
+                <BorderPane>
+                    <top>
+                        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+                            <MFXButton text="Add Coupon" onAction="#handleAddCoupon" styleClass="primary-button"/>
+                            <MFXButton text="Update Coupon" onAction="#handleUpdateCoupon" styleClass="secondary-button"/>
+                            <MFXButton text="Delete Coupon" onAction="#handleDeleteCoupon" styleClass="secondary-button"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="Loyalty Points Threshold:" style="-fx-font-size: 14px; -fx-padding: 0 5 0 0;"/>
+                                <MFXTextField fx:id="loyaltyThresholdField" prefWidth="120" minWidth="120" styleClass="modern-textfield"/>
+                                <MFXButton text="Update" onAction="#handleUpdateLoyalty" styleClass="secondary-button"/>
+                            </HBox>
+                        </HBox>
+                    </top>
+                    <center>
+                        <TableView fx:id="couponsTable" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="couponCodeCol" text="Code" prefWidth="150"/>
+                                <TableColumn fx:id="couponDiscountCol" text="Discount" prefWidth="100"/>
+                                <TableColumn fx:id="couponExpiryCol" text="Expiry Date" prefWidth="150"/>
+                                <TableColumn fx:id="couponActiveCol" text="Active" prefWidth="80"/>
+                            </columns>
+                        </TableView>
+                    </center>
+                </BorderPane>
+            </content>
+        </Tab>
+
+        <Tab text="Reports">
+            <content>
+                <ScrollPane fitToWidth="true" fitToHeight="true">
+                    <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20px;">
+                        <Label text="Sales Reports" styleClass="title-label"/>
+
+                        <HBox spacing="20" alignment="CENTER">
+                            <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20px; -fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 3);" prefWidth="200">
+                                <Label text="Total Revenue" styleClass="subtitle-label"/>
+                                <Label fx:id="totalRevenueLabel" text="₺0.00" styleClass="total-amount-label"/>
+                            </VBox>
+                            <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20px; -fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 3);" prefWidth="200">
+                                <Label text="Total Orders" styleClass="subtitle-label"/>
+                                <Label fx:id="totalOrdersLabel" text="0" styleClass="total-amount-label"/>
+                            </VBox>
+                            <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20px; -fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 3);" prefWidth="200">
+                                <Label text="Active Carriers" styleClass="subtitle-label"/>
+                                <Label fx:id="activeCarriersLabel" text="0" styleClass="total-amount-label"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox spacing="20" prefHeight="400" alignment="CENTER">
+                            <VBox spacing="10" alignment="CENTER" prefWidth="400" style="-fx-padding: 15px; -fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 3);">
+                                <Label text="Orders by Status" styleClass="subtitle-label"/>
+                                <PieChart fx:id="ordersByStatusChart" prefHeight="350" legendVisible="true" labelsVisible="true"/>
+                            </VBox>
+                            <VBox spacing="10" alignment="CENTER" prefWidth="400" style="-fx-padding: 15px; -fx-background-color: #FFFFFF; -fx-background-radius: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 3);">
+                                <Label text="Monthly Revenue" styleClass="subtitle-label"/>
+                                <BarChart fx:id="monthlyRevenueChart" prefHeight="350" legendVisible="false">
+                                    <xAxis>
+                                        <CategoryAxis label="Month"/>
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis label="Revenue (₺)"/>
+                                    </yAxis>
+                                </BarChart>
+                            </VBox>
+                        </HBox>
+
+                        <MFXButton text="Refresh Reports" onAction="#handleRefreshReports" styleClass="primary-button"/>
+                    </VBox>
+                </ScrollPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
+
