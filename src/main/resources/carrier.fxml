@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+
+<BorderPane stylesheets="@app.css" prefWidth="960" prefHeight="540" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.CarrierController">
+    <style>
+        -fx-background-color: #F5F5F5;
+    </style>
+
+    <top>
+        <HBox spacing="15" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+            <Label text="Carrier Dashboard" styleClass="title-label"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="carrierUsernameLabel" styleClass="username-label"/>
+            <MFXButton text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" styleClass="scroll-pane" vbarPolicy="AS_NEEDED" hbarPolicy="AS_NEEDED">
+            <content>
+                <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20px;">
+                    <!-- Available Orders -->
+                    <VBox spacing="10" prefWidth="300" style="-fx-background-color: #FFFFFF; -fx-background-radius: 8px; -fx-padding: 15px;">
+                        <Label text="Available Orders" styleClass="subtitle-label"/>
+                        <TableView fx:id="availableOrdersTable" prefHeight="400" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="availOrderIdCol" text="Order ID" prefWidth="80"/>
+                                <TableColumn fx:id="availTotalCol" text="Total" prefWidth="100"/>
+                                <TableColumn fx:id="availDateCol" text="Delivery Date" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                        <MFXButton text="Select Order" onAction="#handleSelectOrder" styleClass="primary-button"/>
+                    </VBox>
+
+                    <!-- Current/Selected Orders -->
+                    <VBox spacing="10" prefWidth="300" style="-fx-background-color: #FFFFFF; -fx-background-radius: 8px; -fx-padding: 15px;">
+                        <Label text="My Selected Orders" styleClass="subtitle-label"/>
+                        <Label text="(Double-click to unselect)" style="-fx-font-size: 11px; -fx-text-fill: #666666;"/>
+                        <TableView fx:id="selectedOrdersTable" prefHeight="380" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="selOrderIdCol" text="Order ID" prefWidth="80"/>
+                                <TableColumn fx:id="selCustomerCol" text="Customer" prefWidth="100"/>
+                                <TableColumn fx:id="selAddressCol" text="Address" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                        <MFXButton text="Complete Delivery" onAction="#handleCompleteDelivery" styleClass="primary-button"/>
+                    </VBox>
+
+                    <!-- Completed Orders -->
+                    <VBox spacing="10" prefWidth="300" style="-fx-background-color: #FFFFFF; -fx-background-radius: 8px; -fx-padding: 15px;">
+                        <Label text="Completed Orders" styleClass="subtitle-label"/>
+                        <TableView fx:id="completedOrdersTable" prefHeight="400" styleClass="table-view">
+                            <columns>
+                                <TableColumn fx:id="compOrderIdCol" text="Order ID" prefWidth="80"/>
+                                <TableColumn fx:id="compDateCol" text="Completed Date" prefWidth="120"/>
+                                <TableColumn fx:id="compRatingCol" text="Rating" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </HBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <VBox spacing="10" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+            <Label text="Order Details" styleClass="subtitle-label"/>
+            <VBox fx:id="orderDetailsBox" spacing="5" style="-fx-padding: 10px; -fx-background-color: #F5F5F5; -fx-background-radius: 8px;">
+                <Label fx:id="orderDetailsLabel" text="Select an order to view details"/>
+            </VBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
+
