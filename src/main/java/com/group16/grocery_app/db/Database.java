@@ -34,10 +34,16 @@ public class Database {
      */
     private Database() {
         try {
+            // Load MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
             this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             System.out.println("Database connection is successful!");
+        } catch (ClassNotFoundException e) {
+            System.err.println("MySQL JDBC Driver not found!");
+            e.printStackTrace();
         } catch (SQLException e) {
             System.err.println("Database connection failed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

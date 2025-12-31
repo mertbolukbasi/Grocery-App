@@ -9,13 +9,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="rootPane" fx:id="rootPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="960.0" stylesheets="@loginScreen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.LoginController">
+<VBox id="rootPane" fx:id="rootPane" alignment="CENTER" minHeight="540.0" minWidth="960.0" prefHeight="540.0" prefWidth="960.0" VBox.vgrow="ALWAYS" stylesheets="@loginScreen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.LoginController">
    <children>
-      <StackPane alignment="CENTER_RIGHT" prefHeight="480.0" prefWidth="660.0">
+      <StackPane alignment="CENTER_RIGHT" maxHeight="480.0" maxWidth="660.0" minHeight="400.0" minWidth="500.0" prefHeight="480.0" prefWidth="660.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" styleClass="container">
+            <HBox alignment="CENTER" maxHeight="480.0" maxWidth="660.0" minHeight="480.0" minWidth="500.0" prefHeight="480.0" prefWidth="660.0" styleClass="container">
                <children>
-                  <VBox fx:id="leftVBox" alignment="CENTER" prefHeight="200.0" prefWidth="330.0" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="leftVBox" alignment="CENTER" maxWidth="330.0" minWidth="250.0" prefHeight="200.0" prefWidth="330.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label fx:id="signInLabel" text="Sign In">
                            <font>
@@ -25,12 +25,12 @@
                               <Insets bottom="60.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="usernameInput" floatMode="BORDER" floatingText="Username" prefWidth="200.0">
+                        <MFXTextField fx:id="usernameInput" floatMode="BORDER" floatingText="Username" maxWidth="250.0" minWidth="180.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXTextField fx:id="passwordInput" floatMode="BORDER" floatingText="Password" prefWidth="200.0" />
+                        <MFXTextField fx:id="passwordInput" floatMode="BORDER" floatingText="Password" maxWidth="250.0" minWidth="180.0" prefWidth="200.0" />
                         <MFXButton fx:id="signInLog" styleClass="firstButton" text="Sign In">
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -38,7 +38,7 @@
                         </MFXButton>
                      </children>
                   </VBox>
-                  <VBox fx:id="rightVBox" alignment="CENTER" prefHeight="200.0" prefWidth="330.0">
+                  <VBox fx:id="rightVBox" alignment="CENTER" maxWidth="330.0" minWidth="250.0" prefHeight="200.0" prefWidth="330.0">
                      <children>
                         <Label fx:id="signUpLabel" text="Sign Up">
                            <font>
@@ -48,27 +48,27 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Label>
-                        <MFXTextField fx:id="usernameInputReg" floatMode="BORDER" floatingText="Username" prefWidth="200.0">
+                        <MFXTextField fx:id="usernameInputReg" floatMode="BORDER" floatingText="Username" maxWidth="250.0" minWidth="180.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXTextField fx:id="firstNameInput" floatMode="BORDER" floatingText="First Name" prefWidth="200.0">
+                        <MFXTextField fx:id="firstNameInput" floatMode="BORDER" floatingText="First Name" maxWidth="250.0" minWidth="180.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXTextField fx:id="lastNameInput" floatMode="BORDER" floatingText="Last Name" prefWidth="200.0">
+                        <MFXTextField fx:id="lastNameInput" floatMode="BORDER" floatingText="Last Name" maxWidth="250.0" minWidth="180.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXTextField fx:id="passwordInputReg" floatMode="BORDER" floatingText="Password" prefWidth="200.0">
+                        <MFXTextField fx:id="passwordInputReg" floatMode="BORDER" floatingText="Password" maxWidth="250.0" minWidth="180.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </MFXTextField>
-                        <MFXTextField fx:id="confirmPasswordInput" floatMode="BORDER" floatingText="Confirm Password" prefWidth="200.0" />
+                        <MFXTextField fx:id="confirmPasswordInput" floatMode="BORDER" floatingText="Confirm Password" maxWidth="250.0" minWidth="180.0" prefWidth="200.0" />
                         <MFXButton fx:id="signUpButtonReg" styleClass="firstButton" text="Sign Up">
                            <VBox.margin>
                               <Insets top="30.0" />
@@ -78,7 +78,7 @@
                   </VBox>
                </children>
             </HBox>
-            <VBox fx:id="wrapVBox" alignment="CENTER" maxWidth="330.0" prefHeight="200.0" prefWidth="330.0" style="-fx-background-color: linear-gradient(to right, #FF4B2B, #FF416C);">
+            <VBox fx:id="wrapVBox" alignment="CENTER" maxHeight="480.0" maxWidth="330.0" minHeight="480.0" minWidth="250.0" prefHeight="480.0" prefWidth="330.0" style="-fx-background-color: linear-gradient(to right, #FF4B2B, #FF416C);">
                <children>
                   <Label id="helloLabel" fx:id="helloLabel" text="Hello, Friend!" textFill="WHITE">
                      <font>
