@@ -80,7 +80,6 @@ public class InvoiceGenerator {
         float margin = 50;
         float width = page.getMediaBox().getWidth() - 2 * margin;
 
-        // Header
         contentStream.beginText();
         contentStream.setFont(boldFont, 18);
         contentStream.newLineAtOffset(margin, yPosition);
@@ -88,13 +87,11 @@ public class InvoiceGenerator {
         contentStream.endText();
         yPosition -= lineHeight * 2;
 
-        // Draw line
         contentStream.moveTo(margin, yPosition);
         contentStream.lineTo(margin + width, yPosition);
         contentStream.stroke();
         yPosition -= lineHeight;
 
-        // Customer Info
         contentStream.beginText();
         contentStream.setFont(boldFont, 12);
         contentStream.newLineAtOffset(margin, yPosition);
@@ -143,7 +140,6 @@ public class InvoiceGenerator {
         contentStream.endText();
         yPosition -= lineHeight * 2;
 
-        // Table Header
         contentStream.beginText();
         contentStream.setFont(boldFont, 12);
         contentStream.newLineAtOffset(margin, yPosition);
@@ -151,13 +147,11 @@ public class InvoiceGenerator {
         contentStream.endText();
         yPosition -= lineHeight;
 
-        // Draw line
         contentStream.moveTo(margin, yPosition);
         contentStream.lineTo(margin + width, yPosition);
         contentStream.stroke();
         yPosition -= lineHeight;
 
-        // Items
         double subtotal = 0;
         for (OrderItem item : order.getItems()) {
             if (yPosition < 100) {
@@ -187,7 +181,6 @@ public class InvoiceGenerator {
         }
 
         yPosition -= lineHeight;
-        // Draw line
         contentStream.moveTo(margin, yPosition);
         contentStream.lineTo(margin + width, yPosition);
         contentStream.stroke();
@@ -196,7 +189,6 @@ public class InvoiceGenerator {
         double vat = subtotal * 0.18;
         double total = subtotal + vat;
 
-        // Totals
         contentStream.beginText();
         contentStream.setFont(font, 12);
         contentStream.newLineAtOffset(margin, yPosition);

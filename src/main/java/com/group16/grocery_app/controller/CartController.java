@@ -77,13 +77,11 @@ public class CartController {
             new com.group16.grocery_app.db.service.UserCouponService();
 
 
-    // 🔹 PDF’ye göre sabitler
-    private static final double VAT_RATE = 0.18;        // %18
-    private static final double MIN_CART_VALUE = 200.0; // minimum sepet tutarı
+    private static final double VAT_RATE = 0.18;
+    private static final double MIN_CART_VALUE = 200.0;
 
     public void setCart(Cart cart) {
         this.cart = cart;
-        // Ensure all cart items have cart reference for effective price calculation
         cart.refreshEffectivePrices();
         cartTable.setItems(cart.getItems());
 
@@ -106,7 +104,6 @@ public class CartController {
 
         quantityCol.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
 
-        // 🔹 Quantity edit logic
         quantityCol.setOnEditCommit(event -> {
 
             CartItem item = event.getRowValue();
@@ -118,9 +115,8 @@ public class CartController {
             }
 
             item.setQuantity(newValue);
-            // Refresh effective prices after quantity change
             cart.refreshEffectivePrices();
-            calculateLoyaltyDiscount(); // Recalculate loyalty discount
+            calculateLoyaltyDiscount();
             cartTable.refresh();
             updateTotals();
         });
@@ -144,7 +140,6 @@ public class CartController {
 
         totalLabel.setText(String.format("Subtotal: ₺%.2f", subtotal));
 
-        // Show coupon discount if applied
         if (couponDiscount > 0) {
             couponDiscountLabel.setText(String.format("Coupon Discount (-₺%.2f): -₺%.2f",
                     couponDiscount, couponDiscount));
@@ -153,7 +148,6 @@ public class CartController {
             couponDiscountLabel.setVisible(false);
         }
 
-        // Show loyalty discount if applied
         if (loyaltyDiscount > 0) {
             loyaltyDiscountLabel.setText(String.format("Loyalty Discount (-₺%.2f): -₺%.2f",
                     loyaltyDiscount, loyaltyDiscount));
@@ -169,12 +163,11 @@ public class CartController {
     private void calculateLoyaltyDiscount() {
         if (currentUser == null) return;
 
-        // Calculate loyalty discount: 5% discount if customer has 5+ completed orders
         int completedOrders = orderService.getCompletedOrdersCount(currentUser.getId());
         double subtotal = cart.getSubtotal();
 
         if (completedOrders >= 5) {
-            double discount = subtotal * 0.05; // 5% discount
+            double discount = subtotal * 0.05;
             cart.setLoyaltyDiscount(discount);
         } else {
             cart.setLoyaltyDiscount(0.0);
@@ -197,12 +190,10 @@ public class CartController {
 
             availableCouponsList.setItems(couponStrings);
 
-            // Add click listener to apply coupon when double-clicked
             availableCouponsList.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
                     String selected = availableCouponsList.getSelectionModel().getSelectedItem();
                     if (selected != null) {
-                        // Extract coupon code from the string (format: "CODE - ₺XX.XX off")
                         String code = selected.split(" - ")[0];
                         couponCodeField.setText(code);
                         handleApplyCoupon();
@@ -234,14 +225,12 @@ public class CartController {
             return;
         }
 
-        // Check if user has this coupon
         boolean hasCoupon = userCouponService.hasUnusedCoupon(currentUser.getId(), coupon.getId());
         if (!hasCoupon) {
             showAlert(Alert.AlertType.WARNING, "Invalid Coupon", "You don't have this coupon or it has been used.");
             return;
         }
 
-        // Apply coupon discount
         cart.setCouponDiscount(coupon.getDiscountAmount(), coupon.getCode());
         appliedCouponLabel.setText("Applied: " + coupon.getCode() + " (-₺" +
                 String.format("%.2f", coupon.getDiscountAmount()) + ")");
@@ -251,14 +240,12 @@ public class CartController {
         showAlert(Alert.AlertType.INFORMATION, "Coupon Applied",
                 "Coupon " + coupon.getCode() + " applied successfully!");
 
-        // Reload coupons list (coupon will be removed after checkout when marked as used)
         loadAvailableCoupons();
     }
 
     @FXML
     private void handleRemove() {
 
-        // 🔴 LIVE listeyi kopyala
         ObservableList<CartItem> selectedItems = FXCollections.observableArrayList(cartTable.getSelectionModel().getSelectedItems());
 
         if (selectedItems.isEmpty()) {
@@ -286,25 +273,20 @@ public class CartController {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
 
-            // 🔴 KOPYA liste üzerinden güvenli remove
             for (CartItem item : selectedItems) {
                 cart.removeProduct(item.getProduct());
             }
 
-            // 🔴 Selection temizle
             cartTable.getSelectionModel().clearSelection();
 
-            // 🔴 Table zaten cart.getItems()’a bağlı → setItems YOK
             cartTable.refresh();
 
-            // 🔴 Total’ı TEK yerden güncelle
             updateTotals();
         }
     }
     @FXML
     private void handleCheckout() {
 
-        // 1️⃣ Empty cart kontrolü
         if (cart.getItems().isEmpty()) {
             showAlert(
                     Alert.AlertType.WARNING,
@@ -314,7 +296,6 @@ public class CartController {
             return;
         }
 
-        // 2️⃣ Minimum cart value kontrolü (subtotal before VAT)
         double subtotal = cart.getTotal();
         if (subtotal < MIN_CART_VALUE) {
             showAlert(
@@ -325,27 +306,22 @@ public class CartController {
             return;
         }
 
-        // 3️⃣ Delivery date/time selection (within 48 hours)
         LocalDateTime deliveryDateTime = showDeliveryDateTimeDialog();
         if (deliveryDateTime == null) {
-            return; // User cancelled
+            return;
         }
 
         try {
-            // 4️⃣ SADECE Order oluştur (cart henüz BOŞALMAZ)
             Order order = cart.checkout(VAT_RATE, deliveryDateTime);
 
-            // 5️⃣ DB'ye yaz
             if (currentUser == null) {
                 showAlert(Alert.AlertType.ERROR, "Error", "User information is missing. Please log in again.");
                 return;
             }
-            // Save order and generate invoice
             String customerName = currentUser.getFirstName() + " " + currentUser.getLastName();
             orderService.placeOrderWithInvoice(order, currentUser.getId(), deliveryDateTime,
                     customerName, currentUser.getAddress());
 
-            // Mark coupon as used if one was applied
             String appliedCouponCode = cart.getAppliedCouponCode();
             if (appliedCouponCode != null && !appliedCouponCode.trim().isEmpty()) {
                 com.group16.grocery_app.model.Coupon coupon = userCouponService.getCouponByCode(appliedCouponCode);
@@ -354,21 +330,16 @@ public class CartController {
                 }
             }
 
-            // Increment loyalty points (1 point per order)
             com.group16.grocery_app.db.service.UserService userService =
                     new com.group16.grocery_app.db.service.UserService();
             userService.incrementLoyaltyPoints(currentUser.getId(), 1);
 
-            // 5️⃣ SADECE DB BAŞARILIYSA cart temizle
             cart.clear();
 
-            // Reload coupons in case any were used
             loadAvailableCoupons();
 
-            // 9️⃣ Başarı bildirimi
             showAlert(Alert.AlertType.INFORMATION, "Order Successful", "Your order has been placed!\nTotal (incl. VAT): ₺" + String.format("%.2f", order.getTotal()));
 
-            // 🔟 UI reset (Table zaten cart.getItems()'a bağlı)
             cartTable.refresh();
             totalLabel.setText("Subtotal: ₺0.00");
             couponDiscountLabel.setVisible(false);
@@ -380,7 +351,6 @@ public class CartController {
 
         } catch (Exception e) {
 
-            // 8️⃣ HATA varsa cart KORUNUR
             showAlert(Alert.AlertType.ERROR, "Order Failed", "Something went wrong while placing your order.");
 
             e.printStackTrace();
@@ -395,7 +365,6 @@ public class CartController {
         VBox content = new VBox(10);
         content.setPadding(new javafx.geometry.Insets(20));
 
-        // Order items summary
         StringBuilder summary = new StringBuilder();
         summary.append("Order Items:\n");
         summary.append("-".repeat(50)).append("\n");
@@ -408,7 +377,6 @@ public class CartController {
         }
         summary.append("-".repeat(50)).append("\n");
 
-        // Totals
         double subtotal = cart.getSubtotal();
         double couponDiscount = cart.getCouponDiscount();
         double loyaltyDiscount = cart.getLoyaltyDiscount();
@@ -485,13 +453,12 @@ public class CartController {
         ButtonType confirmButtonType = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType, ButtonType.CANCEL);
 
-        // Prevent dialog from closing on validation errors
         javafx.scene.control.Button confirmButton = (javafx.scene.control.Button) dialog.getDialogPane().lookupButton(confirmButtonType);
         confirmButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
             LocalDate selectedDate = datePicker.getValue();
             if (selectedDate == null) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Date", "Please select a delivery date.");
-                event.consume(); // Prevent dialog from closing
+                event.consume();
                 return;
             }
 
@@ -502,15 +469,14 @@ public class CartController {
 
             if (selectedDateTime.isBefore(now)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Time", "Delivery time must be in the future.");
-                event.consume(); // Prevent dialog from closing
+                event.consume();
                 return;
             }
             if (selectedDateTime.isAfter(maxDateTime)) {
                 showAlert(Alert.AlertType.WARNING, "Invalid Time", "Delivery must be within 48 hours.");
-                event.consume(); // Prevent dialog from closing
+                event.consume();
                 return;
             }
-            // Don't consume event - let dialog close on success (date will be returned by resultConverter)
         });
 
         dialog.setResultConverter(dialogButton -> {

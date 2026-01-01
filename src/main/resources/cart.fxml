@@ -66,14 +66,12 @@
 
     <bottom>
         <VBox spacing="15" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
-            <!-- COUPON SECTION -->
             <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 0 20px;">
                 <MFXTextField fx:id="couponCodeField" floatingText="Enter coupon code" prefWidth="200"/>
                 <MFXButton text="Apply Coupon" onAction="#handleApplyCoupon" styleClass="secondary-button"/>
                 <Label fx:id="appliedCouponLabel" text="" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
             </HBox>
 
-            <!-- TOTALS -->
             <VBox alignment="CENTER_RIGHT" spacing="8" style="-fx-padding: 0 20px;">
                 <Label fx:id="totalLabel"
                        text="Subtotal: ₺0.00"
@@ -94,7 +92,6 @@
                        styleClass="total-amount-label"/>
             </VBox>
 
-            <!-- ACTIONS -->
             <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10px 20px;">
                 <MFXButton text="Remove Selected"
                            onAction="#handleRemove"

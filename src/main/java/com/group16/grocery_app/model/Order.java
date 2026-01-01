@@ -95,10 +95,6 @@ public class Order {
         this.carrierRating = carrierRating;
     }
 
-    /**
-     * Checks if the order has been rated.
-     * @return true if rating exists (not null and between 1-5), false otherwise
-     */
     public boolean hasRating() {
         return carrierRating != null && carrierRating >= 1 && carrierRating <= 5;
     }

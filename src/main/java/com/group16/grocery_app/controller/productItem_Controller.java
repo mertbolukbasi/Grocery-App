@@ -39,13 +39,9 @@ public class productItem_Controller {
         }
     }
 
-    /**
-     * Updates the price display based on remaining stock (after cart quantities).
-     */
     private void updatePriceDisplay() {
         if (product == null) return;
 
-        // Calculate effective price based on remaining stock after cart quantities
         double cartQuantity = (cart != null) ? cart.getQuantityOfProduct(product) : 0.0;
         double effectivePrice = product.getEffectivePrice(cartQuantity);
         priceLabel.setText("₺" + String.format("%.2f", effectivePrice));
@@ -74,8 +70,7 @@ public class productItem_Controller {
             return;
         }
 
-        // 🔴 STOK KONTROLÜ (PDF ZORUNLU)
-        double alreadyInCart = cart.getQuantityOfProduct(product); // Cart'ta yoksa 0 döndürmeli
+        double alreadyInCart = cart.getQuantityOfProduct(product);
         double totalRequested = alreadyInCart + quantity;
 
         if (totalRequested > product.getStock()) {
@@ -83,10 +78,8 @@ public class productItem_Controller {
             return;
         }
 
-        // ✅ Sepete ekle (merge Cart içinde yapılır)
         cart.addProduct(product, quantity);
 
-        // Update price display since cart quantities changed
         updatePriceDisplay();
 
         showInfo("Added to cart", product.getName() + " (" + quantity + " kg) added to cart.");

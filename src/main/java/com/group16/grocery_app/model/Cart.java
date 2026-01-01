@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Cart {
 
-    //private List<CartItem> items = new ArrayList<>();
     private ObservableList<CartItem> items = FXCollections.observableArrayList();
     private double couponDiscount = 0.0;
     private double loyaltyDiscount = 0.0;
@@ -19,7 +18,6 @@ public class Cart {
         for (CartItem item : items) {
             if (item.getProduct().getId() == product.getId()) {
                 item.addQuantity(quantity);
-                // Refresh all items to update effective prices (since cart quantities changed)
                 refreshEffectivePrices();
                 return;
             }
@@ -27,14 +25,9 @@ public class Cart {
 
         CartItem newItem = new CartItem(product, quantity, this);
         items.add(newItem);
-        // Refresh all items to update effective prices
         refreshEffectivePrices();
     }
 
-    /**
-     * Refreshes effective prices for all cart items based on current cart quantities.
-     * This ensures that when stock changes due to cart additions/removals, prices are recalculated.
-     */
     public void refreshEffectivePrices() {
         for (CartItem item : items) {
             item.setCart(this);
@@ -103,7 +96,6 @@ public class Cart {
 
     public void removeProduct(Product product) {
         items.removeIf(item -> item.getProduct().getId() == product.getId());
-        // Refresh effective prices after removal
         refreshEffectivePrices();
     }
 
@@ -111,7 +103,6 @@ public class Cart {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem item : items) {
-            // Use effective price based on cart quantities (item.getEffectivePrice())
             orderItems.add(new OrderItem(item.getProduct(), item.getQuantity(), item.getEffectivePrice()));
         }
         double subtotal = getTotal();
@@ -124,7 +115,6 @@ public class Cart {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (CartItem item : items) {
-            // Use effective price based on cart quantities (item.getEffectivePrice())
             orderItems.add(new OrderItem(item.getProduct(), item.getQuantity(), item.getEffectivePrice()));
         }
         double afterDiscounts = getTotalAfterDiscounts();

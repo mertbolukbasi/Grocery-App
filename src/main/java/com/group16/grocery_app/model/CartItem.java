@@ -4,7 +4,7 @@ public class CartItem {
 
     private Product product;
     private double quantity;
-    private Cart cart; // Reference to cart to calculate effective price based on cart quantities
+    private Cart cart;
 
     public CartItem(Product product, double quantity) {
         this.product = product;
@@ -34,16 +34,11 @@ public class CartItem {
     }
 
     public double getTotalPrice() {
-        // Calculate effective price based on remaining stock (after considering cart quantities)
         double cartQuantity = cart != null ? cart.getQuantityOfProduct(product) : quantity;
         double effectivePrice = product.getEffectivePrice(cartQuantity);
         return quantity * effectivePrice;
     }
 
-    /**
-     * Gets the effective price per unit for this cart item.
-     * Price is doubled if remaining stock (after cart quantities) <= threshold.
-     */
     public double getEffectivePrice() {
         double cartQuantity = cart != null ? cart.getQuantityOfProduct(product) : quantity;
         return product.getEffectivePrice(cartQuantity);
