@@ -63,7 +63,6 @@ public class CarrierController {
         setupCompletedOrdersTable();
         loadOrders();
 
-        // Show order details when selection changes
         availableOrdersTable.getSelectionModel().selectedItemProperty().addListener((obs, old, newOrder) -> {
             if (newOrder != null) {
                 showOrderDetails(newOrder);
@@ -76,7 +75,6 @@ public class CarrierController {
             }
         });
 
-        // Add double-click handler to unselect orders
         selectedOrdersTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && selectedOrdersTable.getSelectionModel().getSelectedItem() != null) {
                 handleUnselectOrder();
@@ -107,8 +105,6 @@ public class CarrierController {
         if (selectedOrdersTable == null) return;
 
         selOrderIdCol.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getId()));
-        // Customer name and address would need to be loaded from order details
-        // For now, show order ID
         selCustomerCol.setCellValueFactory(data -> new SimpleStringProperty("Order #" + data.getValue().getId()));
         selAddressCol.setCellValueFactory(data -> new SimpleStringProperty("See details"));
     }
@@ -127,7 +123,6 @@ public class CarrierController {
             return new SimpleDoubleProperty(ratingValue).asObject();
         });
 
-        // Format rating column to show stars or "N/A" if not rated
         compRatingCol.setCellFactory(column -> new TableCell<Order, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
@@ -145,21 +140,18 @@ public class CarrierController {
         if (currentUser == null) return;
 
         try {
-            // Load available orders (Pending status, no carrier assigned)
             if (availableOrdersTable != null) {
                 ObservableList<Order> available = orderService.getAvailableOrders();
                 if (available == null) available = FXCollections.observableArrayList();
                 availableOrdersTable.setItems(available);
             }
 
-            // Load selected orders (Selected status, assigned to this carrier)
             if (selectedOrdersTable != null) {
                 ObservableList<Order> selected = orderService.getOrdersByCarrierId(currentUser.getId(), "Selected");
                 if (selected == null) selected = FXCollections.observableArrayList();
                 selectedOrdersTable.setItems(selected);
             }
 
-            // Load completed orders (Delivered status, delivered by this carrier)
             if (completedOrdersTable != null) {
                 ObservableList<Order> completed = orderService.getOrdersByCarrierId(currentUser.getId(), "Delivered");
                 if (completed == null) completed = FXCollections.observableArrayList();
@@ -167,7 +159,6 @@ public class CarrierController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Set empty lists on error
             if (availableOrdersTable != null) availableOrdersTable.setItems(FXCollections.observableArrayList());
             if (selectedOrdersTable != null) selectedOrdersTable.setItems(FXCollections.observableArrayList());
             if (completedOrdersTable != null) completedOrdersTable.setItems(FXCollections.observableArrayList());
@@ -217,14 +208,12 @@ public class CarrierController {
             return;
         }
 
-        // Check if order is already selected by another carrier
         if (!"Pending".equals(selected.getStatus())) {
             showAlert(Alert.AlertType.WARNING, "Order Unavailable",
                     "This order has already been selected by another carrier.");
             return;
         }
 
-        // Assign order to this carrier
         try {
             boolean success = orderService.selectOrder(selected.getId(), currentUser.getId());
             if (success) {
@@ -284,7 +273,6 @@ public class CarrierController {
             return;
         }
 
-        // Show dialog to enter actual delivery date
         Dialog<LocalDateTime> dialog = new Dialog<>();
         dialog.setTitle("Complete Delivery");
         dialog.setHeaderText("Enter delivery completion date and time");
