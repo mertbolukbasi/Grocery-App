@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+
+<HBox
+        spacing="12"
+        alignment="CENTER_LEFT"
+        prefHeight="60"
+        styleClass="product-card"
+        stylesheets="@productItem.css"
+        xmlns="http://javafx.com/javafx/21"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.group16.grocery_app.controller.productItem_Controller">
+
+    <!-- Product Image -->
+    <ImageView fx:id="productImageView"
+               fitHeight="50"
+               fitWidth="50"
+               preserveRatio="true"
+               pickOnBounds="true"/>
+
+    <!-- Product Name -->
+    <Label fx:id="nameLabel"
+           styleClass="product-name"/>
+
+    <!-- Price -->
+    <Label fx:id="priceLabel"
+           styleClass="product-price"/>
+
+    <!-- Quantity input -->
+    <MFXTextField fx:id="quantityField"
+                  floatingText="kg"
+                  prefWidth="60"/>
+
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <!-- Add to Cart -->
+    <MFXButton fx:id="addToCartButton"
+               text="Add to Cart"
+               styleClass="add-button"
+               onAction="#handleAddToCart"/>
+
+</HBox>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.SplitPane?>
+
+<BorderPane
+        stylesheets="@app.css"
+        prefWidth="700"
+        prefHeight="600"
+        xmlns="http://javafx.com/javafx/21"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.group16.grocery_app.controller.CartController">
+    <style>
+        -fx-background-color: #F5F5F5;
+    </style>
+
+    <top>
+        <VBox spacing="10" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+            <Label text="Your Shopping Cart"
+                   styleClass="title-label"/>
+            <Label text="Double-click quantity to edit"
+                   style="-fx-font-size: 12px; -fx-text-fill: #666666;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.7" orientation="HORIZONTAL">
+            <items>
+                <VBox spacing="10" style="-fx-padding: 20px;">
+                    <TableView fx:id="cartTable" styleClass="table-view" prefHeight="350">
+                        <columns>
+                            <TableColumn fx:id="nameCol" text="Product" prefWidth="200">
+                                <style>
+                                    -fx-alignment: CENTER_LEFT;
+                                </style>
+                            </TableColumn>
+                            <TableColumn fx:id="quantityCol" text="Quantity (kg)" prefWidth="150">
+                                <style>
+                                    -fx-alignment: CENTER;
+                                </style>
+                            </TableColumn>
+                            <TableColumn fx:id="priceCol" text="Unit Price" prefWidth="150">
+                                <style>
+                                    -fx-alignment: CENTER_RIGHT;
+                                </style>
+                            </TableColumn>
+                            <TableColumn fx:id="totalCol" text="Total" prefWidth="150">
+                                <style>
+                                    -fx-alignment: CENTER_RIGHT;
+                                </style>
+                            </TableColumn>
+                        </columns>
+                    </TableView>
+                </VBox>
+                <VBox spacing="10" style="-fx-padding: 20px;">
+                    <Label text="Available Coupons" styleClass="subtitle-label"/>
+                    <ListView fx:id="availableCouponsList" prefHeight="350" styleClass="list-view"/>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+
+    <bottom>
+        <VBox spacing="15" style="-fx-padding: 20px; -fx-background-color: #FFFFFF;">
+            <!-- COUPON SECTION -->
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 0 20px;">
+                <MFXTextField fx:id="couponCodeField" floatingText="Enter coupon code" prefWidth="200"/>
+                <MFXButton text="Apply Coupon" onAction="#handleApplyCoupon" styleClass="secondary-button"/>
+                <Label fx:id="appliedCouponLabel" text="" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <!-- TOTALS -->
+            <VBox alignment="CENTER_RIGHT" spacing="8" style="-fx-padding: 0 20px;">
+                <Label fx:id="totalLabel"
+                       text="Subtotal: ₺0.00"
+                       styleClass="total-label"/>
+                <Label fx:id="couponDiscountLabel"
+                       text=""
+                       styleClass="total-label"
+                       visible="false"/>
+                <Label fx:id="loyaltyDiscountLabel"
+                       text=""
+                       styleClass="total-label"
+                       visible="false"/>
+                <Label fx:id="vatLabel"
+                       text="VAT (18%): ₺0.00"
+                       styleClass="total-label"/>
+                <Label fx:id="grandTotalLabel"
+                       text="Total: ₺0.00"
+                       styleClass="total-amount-label"/>
+            </VBox>
+
+            <!-- ACTIONS -->
+            <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10px 20px;">
+                <MFXButton text="Remove Selected"
+                           onAction="#handleRemove"
+                           styleClass="secondary-button"/>
+                <MFXButton text="Checkout"
+                           onAction="#handleCheckout"
+                           styleClass="primary-button"/>
+            </HBox>
+        </VBox>
+    </bottom>
+
+</BorderPane>
