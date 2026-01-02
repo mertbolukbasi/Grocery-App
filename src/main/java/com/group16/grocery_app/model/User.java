@@ -122,4 +122,8 @@ public class User {
      * @author Mert Bölükbaşı
      */
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public String getPassword() {
+        return this.password;
+    }
 }

@@ -378,6 +378,7 @@ public class LoginController {
 
         try {
             loggedInUser = userService.login(username.trim(), password);
+            System.out.println(username + password);
 
             if (loggedInUser != null) {
                 com.group16.grocery_app.model.Role role = loggedInUser.getRole();

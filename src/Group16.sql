@@ -78,12 +78,12 @@ CREATE TABLE UserCoupons (
 
 INSERT INTO UserInfo (username, password, role, address)
 VALUES
-    ('cust','cust','customer','Istanbul'),
-    ('carr','carr','carrier','Istanbul'),
-    ('own','own','owner','Istanbul'),
-    ('cust1','1234','customer','Kadikoy'),
-    ('cust2','1234','customer','Besiktas'),
-    ('cust3','1234','customer','Sisli');
+    ('cust','80d26609c5226268981e4a6d4ceddbc339d991841ae580e3180b56c8ade7651d','customer','Istanbul'),
+    ('carr','f9356b0952e5681f9bb4969078d6762f1f3f3eb9e87b80d6544103ad918f074c','carrier','Istanbul'),
+    ('own','5b3975651c3cab92d044c096dc30a1c2d9525497457472de48c51ecb363d1f4a','owner','Istanbul'),
+    ('cust1','054de311ed040be47336f105190751aaed629b7e127593c2bde5d97229d8389e','customer','Kadikoy'),
+    ('cust2','ced9bb677a35528709430b1df4dabc97535994193c0ca53247a819d36b3cb344','customer','Besiktas'),
+    ('cust3','bd6192fc7f55744a64c44115826d654505653b2a076826b9bbc3d720043cd5e9','customer','Sisli');
 
 INSERT INTO ProductInfo (name, type, price, stock, threshold, image_data)
 VALUES
