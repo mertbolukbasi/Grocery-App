@@ -33,6 +33,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
+/**
+ * Controller class for managing the owner's dashboard.
+ * Handles product management, carrier management, order overview, coupons, messaging, and reports.
+ *
+ * @author Yiğit Emre Ünlüçerçi
+ */
 public class OwnerController {
 
     private User currentUser;
@@ -87,6 +93,13 @@ public class OwnerController {
     @FXML private PieChart ordersByStatusChart;
     @FXML private BarChart<String, Number> monthlyRevenueChart;
 
+    /**
+     * Sets the current user for the owner session and initializes the dashboard.
+     * Updates the username label and loads initial data.
+     *
+     * @param user the logged-in owner user
+     * @author Yiğit Emre Ünlüçerçi
+     */
     public void setCurrentUser(User user) {
         this.currentUser = user;
         if (ownerUsernameLabel != null) {
@@ -95,6 +108,12 @@ public class OwnerController {
         initialize();
     }
 
+    /**
+     * Initializes the owner dashboard when the view is loaded.
+     * Sets up tables, messaging, and loads all required data.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     public void initialize() {
         if (currentUser == null) return;
@@ -107,6 +126,11 @@ public class OwnerController {
         loadData();
     }
 
+    /**
+     * Configures the products table columns and formatting.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void setupProductsTable() {
         if (productsTable == null) return;
 
@@ -126,6 +150,11 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Configures the orders table columns and formatting.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void setupOrdersTable() {
         if (ordersTable == null) return;
 
@@ -153,6 +182,11 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Configures the carriers table columns and rating display.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void setupCarriersTable() {
         if (carriersTable == null) return;
 
@@ -182,6 +216,11 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Configures the coupons table columns and formatting.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void setupCouponsTable() {
         if (couponsTable == null) return;
 
@@ -200,6 +239,11 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Sets up the messaging UI event listeners and loads conversation list.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void setupMessages() {
         if (conversationsList == null) return;
         conversationsList.getSelectionModel().selectedItemProperty().addListener((obs, old, newVal) -> {
@@ -210,6 +254,12 @@ public class OwnerController {
         loadConversations();
     }
 
+    /**
+     * Loads available conversations for the current owner.
+     * Populates the conversation list and caches conversation user IDs.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadConversations() {
         if (conversationsList != null && currentUser != null) {
             ObservableList<String> conversations = messageService.getConversations(currentUser.getId());
@@ -218,6 +268,12 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Loads all owner dashboard data.
+     * Calls individual loaders for products, orders, carriers, coupons, and reports.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadData() {
         loadProducts();
         loadOrders();
@@ -226,6 +282,12 @@ public class OwnerController {
         loadReports();
     }
 
+    /**
+     * Loads all coupons and populates the coupons table.
+     * Sets an empty list if an error occurs.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadCoupons() {
         if (couponsTable != null) {
             try {
@@ -239,6 +301,12 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Loads all products and populates the products table.
+     * Sets an empty list if an error occurs.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadProducts() {
         if (productsTable != null) {
             try {
@@ -252,6 +320,12 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Loads all orders and populates the orders table.
+     * Sets an empty list if an error occurs.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadOrders() {
         if (ordersTable != null) {
             try {
@@ -265,6 +339,12 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Loads all carriers and populates the carriers table.
+     * Sets an empty list if an error occurs.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadCarriers() {
         if (carriersTable != null) {
             try {
@@ -278,6 +358,12 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Loads report summary metrics and updates charts.
+     * Calculates total revenue, order counts, active carriers, and chart data.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadReports() {
         try {
             ObservableList<Order> allOrders = orderService.getAllOrders();
@@ -313,6 +399,12 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Updates the "Orders by Status" pie chart using the given orders.
+     *
+     * @param orders the list of orders to analyze
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void updateOrdersByStatusChart(ObservableList<Order> orders) {
         if (ordersByStatusChart == null) return;
 
@@ -380,6 +472,13 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Updates the monthly revenue bar chart using the given orders.
+     * Groups order totals by year-month and displays them in ascending time order.
+     *
+     * @param orders the list of orders to analyze
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void updateMonthlyRevenueChart(ObservableList<Order> orders) {
         if (monthlyRevenueChart == null) return;
 
@@ -451,6 +550,13 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Loads and displays messages for the selected conversation.
+     * Updates the conversation title and renders messages in the message box.
+     *
+     * @param customerName the username shown in the conversation list
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void loadConversation(String customerName) {
         if (conversationTitleLabel != null) {
             conversationTitleLabel.setText("Conversation with " + customerName);
@@ -487,11 +593,22 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Opens the dialog to add a new product.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleAddProduct() {
         showProductDialog(null);
     }
 
+    /**
+     * Opens the dialog to update the selected product.
+     * Shows a warning if no product is selected.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleUpdateProduct() {
         Product selected = productsTable.getSelectionModel().getSelectedItem();
@@ -502,6 +619,12 @@ public class OwnerController {
         showProductDialog(selected);
     }
 
+    /**
+     * Removes the selected product after confirmation.
+     * Reloads product data on success.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleRemoveProduct() {
         Product selected = productsTable.getSelectionModel().getSelectedItem();
@@ -526,6 +649,13 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Displays a dialog for adding or updating a product.
+     * Validates input fields and optionally allows selecting an image file.
+     *
+     * @param product the product to update, or null to add a new product
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void showProductDialog(Product product) {
         Dialog<Product> dialog = new Dialog<>();
         dialog.setTitle(product == null ? "Add Product" : "Update Product");
@@ -648,11 +778,22 @@ public class OwnerController {
         dialog.showAndWait();
     }
 
+    /**
+     * Opens the dialog to add a new carrier.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleAddCarrier() {
         showCarrierDialog(null);
     }
 
+    /**
+     * Removes the selected carrier after confirmation.
+     * Reloads carrier data on success.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleRemoveCarrier() {
         User selected = carriersTable.getSelectionModel().getSelectedItem();
@@ -677,6 +818,13 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Displays a dialog for adding or updating a carrier.
+     * Validates carrier input and creates a new carrier when carrier is null.
+     *
+     * @param carrier the carrier to update, or null to add a new carrier
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void showCarrierDialog(User carrier) {
         Dialog<User> dialog = new Dialog<>();
         dialog.setTitle(carrier == null ? "Add Carrier" : "Update Carrier");
@@ -765,6 +913,12 @@ public class OwnerController {
         dialog.showAndWait();
     }
 
+    /**
+     * Sends a message to the selected customer in the conversations list.
+     * Refreshes the conversation view on success.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleSendMessage() {
         String message = messageInput.getText();
@@ -799,11 +953,22 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Opens the dialog to add a new coupon.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleAddCoupon() {
         showCouponDialog(null);
     }
 
+    /**
+     * Opens the dialog to update the selected coupon.
+     * Shows a warning if no coupon is selected.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleUpdateCoupon() {
         Coupon selected = couponsTable.getSelectionModel().getSelectedItem();
@@ -814,6 +979,12 @@ public class OwnerController {
         showCouponDialog(selected);
     }
 
+    /**
+     * Deletes the selected coupon after confirmation.
+     * Reloads coupon data on success.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleDeleteCoupon() {
         Coupon selected = couponsTable.getSelectionModel().getSelectedItem();
@@ -838,6 +1009,13 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Displays a dialog for adding or updating a coupon.
+     * Validates input fields and saves the coupon via the coupon service.
+     *
+     * @param coupon the coupon to update, or null to add a new coupon
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void showCouponDialog(Coupon coupon) {
         Dialog<Coupon> dialog = new Dialog<>();
         dialog.setTitle(coupon == null ? "Add Coupon" : "Update Coupon");
@@ -911,6 +1089,12 @@ public class OwnerController {
         dialog.showAndWait();
     }
 
+    /**
+     * Handles loyalty threshold update request from the owner.
+     * Currently shows an informational message because the update is not implemented.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleUpdateLoyalty() {
         String threshold = loyaltyThresholdField.getText();
@@ -933,11 +1117,22 @@ public class OwnerController {
         }
     }
 
+    /**
+     * Refreshes the reports section by reloading report data and charts.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleRefreshReports() {
         loadReports();
     }
 
+    /**
+     * Logs out the current user and navigates back to the login view.
+     * Shows a confirmation dialog before performing logout.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     @FXML
     private void handleLogout() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -968,6 +1163,14 @@ public class OwnerController {
         });
     }
 
+    /**
+     * Displays an alert dialog with the given type, title, and message.
+     *
+     * @param type the type of the alert (e.g., Error, Information)
+     * @param title the title of the alert window
+     * @param message the content message
+     * @author Yiğit Emre Ünlüçerçi
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

@@ -11,13 +11,34 @@ import java.util.ArrayList;
 import java.util.List;
 import com.group16.grocery_app.model.ConversationUser;
 
+/**
+ * Repository class for message-related database operations.
+ * Handles sending messages, fetching chat history, and listing conversation partners.
+ *
+ * @author Yiğit Emre Ünlüçerçi
+ */
 public class MessageRepository {
     private final Connection connection;
 
+    /**
+     * Creates a new MessageRepository instance and initializes the database connection.
+     *
+     * @author Yiğit Emre Ünlüçerçi
+     */
     public MessageRepository() {
         this.connection = Database.getInstance().getConnection();
     }
 
+    /**
+     * Inserts a new message into the database with the current timestamp.
+     *
+     * @param senderId sender user ID
+     * @param receiverId receiver user ID
+     * @param content message content
+     * @return true if the message is inserted successfully, false otherwise
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
+     */
     public boolean sendMessage(int senderId, int receiverId, String content) throws SQLException {
         String query = "INSERT INTO Messages (senderID, receiverID, content, sent_time) VALUES (?, ?, ?, NOW())";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -29,6 +50,15 @@ public class MessageRepository {
         }
     }
 
+    /**
+     * Retrieves all messages exchanged between two users ordered by send time (ascending).
+     *
+     * @param userId1 first user ID
+     * @param userId2 second user ID
+     * @return observable list of messages between the given users
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
+     */
     public ObservableList<Message> getMessagesBetween(int userId1, int userId2) throws SQLException {
         List<Message> messages = new ArrayList<>();
         String query = "SELECT * FROM Messages WHERE (senderID = ? AND receiverID = ?) OR (senderID = ? AND receiverID = ?) ORDER BY sent_time ASC";
@@ -57,6 +87,15 @@ public class MessageRepository {
         return FXCollections.observableArrayList(messages);
     }
 
+    /**
+     * Returns usernames of all users who have an existing conversation with the given user.
+     * The list excludes the given user and is ordered by username.
+     *
+     * @param userId the user ID to list conversation partners for
+     * @return observable list of usernames who have exchanged messages with the given user
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
+     */
     public ObservableList<String> getConversations(int userId) throws SQLException {
         List<String> conversations = new ArrayList<>();
         String query = "SELECT DISTINCT u.username, u.userID FROM UserInfo u " +
@@ -78,6 +117,15 @@ public class MessageRepository {
         return FXCollections.observableArrayList(conversations);
     }
 
+    /**
+     * Returns conversation partners for the given user as (username, userId) pairs.
+     * This is useful when the UI selects a username but the database operations require user IDs.
+     *
+     * @param userId the user ID to list conversation partners for
+     * @return list of ConversationUser objects containing username and userId of each conversation partner
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
+     */
     public List<ConversationUser> getConversationUserIds(int userId) throws SQLException {
         List<ConversationUser> userIdList = new ArrayList<>();
         String query = "SELECT DISTINCT u.username, u.userID FROM UserInfo u " +

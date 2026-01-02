@@ -11,29 +11,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repository class for coupon database operations.
- * Handles CRUD operations for coupons in the database.
+ * Repository class for coupon-related database operations.
+ * Handles CRUD operations and queries for active/valid coupons.
  *
- * @author Ege Usug
+ * @author Yiğit Emre Ünlüçerçi
  */
 public class CouponRepository {
     private final Connection connection;
 
     /**
-     * Initializes the repository with a database connection.
+     * Creates a new CouponRepository instance and initializes the database connection.
      *
-     * @author Ege Usug
+     * @author Yiğit Emre Ünlüçerçi
      */
     public CouponRepository() {
         this.connection = Database.getInstance().getConnection();
     }
 
     /**
-     * Retrieves all coupons from the database.
+     * Retrieves all coupons from the database ordered by coupon code.
      *
-     * @return ObservableList of all coupons
-     * @throws SQLException If a database error occurs
-     * @author Ege Usug
+     * @return observable list of all coupons
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
      */
     public ObservableList<Coupon> findAll() throws SQLException {
         List<Coupon> coupons = new ArrayList<>();
@@ -60,14 +60,15 @@ public class CouponRepository {
     }
 
     /**
-     * Adds a new coupon to the database.
+     * Inserts a new coupon into the database.
+     * Newly created coupons are marked as active by default.
      *
-     * @param code The coupon code
-     * @param discountAmount The discount amount
-     * @param expiryDate The expiry date of the coupon
-     * @return true if the coupon was added successfully, false otherwise
-     * @throws SQLException If a database error occurs
-     * @author Ege Usug
+     * @param code coupon code
+     * @param discountAmount discount amount of the coupon
+     * @param expiryDate expiry date of the coupon
+     * @return true if the coupon is inserted successfully, false otherwise
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
      */
     public boolean addCoupon(String code, double discountAmount, LocalDate expiryDate) throws SQLException {
         String query = "INSERT INTO Coupons (code, discount_amount, expired_date, is_active) VALUES (?, ?, ?, TRUE)";
@@ -83,14 +84,14 @@ public class CouponRepository {
     /**
      * Updates an existing coupon in the database.
      *
-     * @param couponId The ID of the coupon to update
-     * @param code The new coupon code
-     * @param discountAmount The new discount amount
-     * @param expiryDate The new expiry date
-     * @param isActive Whether the coupon is active
-     * @return true if the coupon was updated successfully, false otherwise
-     * @throws SQLException If a database error occurs
-     * @author Ege Usug
+     * @param couponId the coupon ID to update
+     * @param code updated coupon code
+     * @param discountAmount updated discount amount
+     * @param expiryDate updated expiry date
+     * @param isActive updated active status
+     * @return true if the update is successful, false otherwise
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
      */
     public boolean updateCoupon(int couponId, String code, double discountAmount, LocalDate expiryDate, boolean isActive) throws SQLException {
         String query = "UPDATE Coupons SET code = ?, discount_amount = ?, expired_date = ?, is_active = ? WHERE couponID = ?";
@@ -106,11 +107,12 @@ public class CouponRepository {
     }
 
     /**
-     * Retrieves all active and non-expired coupons from the database.
+     * Retrieves active and non-expired coupons from the database.
+     * A coupon is considered valid if it is active and its expiry date is not before today.
      *
-     * @return ObservableList of active coupons
-     * @throws SQLException If a database error occurs
-     * @author Ege Usug
+     * @return observable list of active and valid coupons
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
      */
     public ObservableList<Coupon> getActiveCoupons() throws SQLException {
         List<Coupon> coupons = new ArrayList<>();
@@ -137,12 +139,12 @@ public class CouponRepository {
     }
 
     /**
-     * Deletes a coupon from the database.
+     * Deletes a coupon from the database by its ID.
      *
-     * @param couponId The ID of the coupon to delete
-     * @return true if the coupon was deleted successfully, false otherwise
-     * @throws SQLException If a database error occurs
-     * @author Ege Usug
+     * @param couponId the coupon ID to delete
+     * @return true if the coupon is deleted successfully, false otherwise
+     * @throws SQLException if a database access error occurs
+     * @author Yiğit Emre Ünlüçerçi
      */
     public boolean deleteCoupon(int couponId) throws SQLException {
         String query = "DELETE FROM Coupons WHERE couponID = ?";
