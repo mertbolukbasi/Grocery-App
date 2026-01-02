@@ -32,6 +32,7 @@ CREATE TABLE OrderInfo (
     status ENUM('Pending', 'Selected', 'Delivered', 'Cancelled') DEFAULT 'Pending',
     total_cost DOUBLE NOT NULL,
     invoice_data LONGTEXT,
+    invoice_pdf LONGBLOB,
     carrier_rating INT CHECK (carrier_rating BETWEEN 1 AND 5),
     FOREIGN KEY (customerID) REFERENCES UserInfo(userID),
     FOREIGN KEY (carrierID) REFERENCES UserInfo(userID)

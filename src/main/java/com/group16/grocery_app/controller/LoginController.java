@@ -264,7 +264,7 @@ public class LoginController {
                 delayTask = new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        Thread.sleep(500); // Delay to avoid checking on every keystroke
+                        Thread.sleep(500);
                         return null;
                     }
                 };

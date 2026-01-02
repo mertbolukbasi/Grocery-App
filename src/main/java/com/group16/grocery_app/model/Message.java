@@ -23,4 +23,3 @@ public class Message {
     public String getContent() { return content; }
     public LocalDateTime getSentTime() { return sentTime; }
 }
-

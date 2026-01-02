@@ -30,6 +30,12 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Controller for the customer interface.
+ * Handles product browsing, search functionality, and customer interactions.
+ *
+ * @author Ege Usug
+ */
 public class CustomerController {
 
     private Cart cart;
@@ -50,6 +56,11 @@ public class CustomerController {
 
     private ObservableList<Product> allProducts;
 
+    /**
+     * Initializes the controller and loads products from the database.
+     *
+     * @author Ege Usug
+     */
     @FXML
     public void initialize() {
         try {
@@ -69,10 +80,21 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Sets the username label in the UI.
+     *
+     * @param username The username to display
+     * @author Ege Usug
+     */
     public void setUsername(String username) {
         usernameLabel.setText(username);
     }
 
+    /**
+     * Clears all content from the product accordion panes.
+     *
+     * @author Ege Usug
+     */
     private void clearAccordion() {
         for (TitledPane pane : productAccordion.getPanes()) {
             VBox box = (VBox) pane.getContent();
@@ -82,6 +104,12 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Filters products based on the search keyword.
+     *
+     * @param keyword The search keyword to filter products by name
+     * @author Ege Usug
+     */
     private void filterProducts(String keyword) {
 
         if (keyword == null || keyword.isBlank()) {
@@ -98,6 +126,12 @@ public class CustomerController {
         showProducts(filtered);
     }
 
+    /**
+     * Displays the given list of products in the accordion.
+     *
+     * @param products The list of products to display
+     * @author Ege Usug
+     */
     private void showProducts(ObservableList<Product> products) {
         try {
             if (productAccordion == null) {
@@ -125,6 +159,13 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Adds a product to the appropriate accordion pane based on its type.
+     *
+     * @param product The product to add to the accordion
+     * @throws IOException If there is an error loading the product item FXML
+     * @author Ege Usug
+     */
     private void addProductToAccordion(Product product) throws IOException {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -169,6 +210,12 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Sets the current user and loads their cart.
+     *
+     * @param user The current user
+     * @author Ege Usug
+     */
     public void setCurrentUser(User user) {
         this.currentUser = user;
         if (user != null) {
@@ -180,6 +227,11 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Opens the cart window.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleOpenCart() {
 
@@ -206,6 +258,11 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Handles the logout action, clearing the cart and returning to the login screen.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleLogout() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -239,6 +296,11 @@ public class CustomerController {
         });
     }
 
+    /**
+     * Opens the orders view for the current user.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleMyOrders() {
         try {
@@ -264,6 +326,11 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Opens the messaging dialog to communicate with the store owner.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleMessages() {
         if (currentUser == null) {
@@ -349,6 +416,11 @@ public class CustomerController {
         dialog.showAndWait();
     }
 
+    /**
+     * Opens the profile editing dialog.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleEditProfile() {
         if (currentUser == null) {
@@ -439,6 +511,13 @@ public class CustomerController {
         dialog.showAndWait();
     }
 
+    /**
+     * Validates a phone number format (must start with 0 and be 11 digits).
+     *
+     * @param phone The phone number to validate
+     * @return true if the phone number is valid, false otherwise
+     * @author Ege Usug
+     */
     private boolean validatePhoneNumber(String phone) {
         if (phone == null || phone.trim().isEmpty()) {
             return true;
@@ -457,6 +536,14 @@ public class CustomerController {
         return trimmed.matches("\\d+");
     }
 
+    /**
+     * Displays an alert dialog with the specified type, title, and message.
+     *
+     * @param type The type of alert
+     * @param title The title of the alert
+     * @param message The message to display
+     * @author Ege Usug
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

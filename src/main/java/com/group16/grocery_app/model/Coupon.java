@@ -25,4 +25,3 @@ public class Coupon {
 
     public void setActive(boolean active) { this.isActive = active; }
 }
-

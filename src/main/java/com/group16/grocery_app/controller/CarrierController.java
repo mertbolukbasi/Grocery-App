@@ -426,4 +426,3 @@ public class CarrierController {
         alert.showAndWait();
     }
 }
-

@@ -28,6 +28,12 @@ import java.time.LocalTime;
 import java.util.Optional;
 import javafx.scene.control.TextArea;
 
+/**
+ * Controller for the shopping cart interface.
+ * Manages cart operations, checkout process, and order placement.
+ *
+ * @author Ege Usug
+ */
 public class CartController {
 
     @FXML
@@ -76,10 +82,15 @@ public class CartController {
     private final com.group16.grocery_app.db.service.UserCouponService userCouponService =
             new com.group16.grocery_app.db.service.UserCouponService();
 
-
     private static final double VAT_RATE = 0.18;
     private static final double MIN_CART_VALUE = 200.0;
 
+    /**
+     * Sets the cart and updates the UI.
+     *
+     * @param cart The cart to set
+     * @author Ege Usug
+     */
     public void setCart(Cart cart) {
         this.cart = cart;
         cart.refreshEffectivePrices();
@@ -88,6 +99,12 @@ public class CartController {
         updateTotals();
     }
 
+    /**
+     * Sets the current user and calculates loyalty discounts.
+     *
+     * @param user The current user
+     * @author Ege Usug
+     */
     public void setCurrentUser(User user) {
         this.currentUser = user;
         calculateLoyaltyDiscount();
@@ -95,6 +112,11 @@ public class CartController {
         updateTotals();
     }
 
+    /**
+     * Initializes the cart table and sets up cell factories.
+     *
+     * @author Ege Usug
+     */
     @FXML
     public void initialize() {
 
@@ -130,6 +152,11 @@ public class CartController {
         totalCol.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getTotalPrice()).asObject());
     }
 
+    /**
+     * Updates the total labels (subtotal, VAT, grand total, discounts).
+     *
+     * @author Ege Usug
+     */
     private void updateTotals() {
         double subtotal = cart.getSubtotal();
         double couponDiscount = cart.getCouponDiscount();
@@ -160,6 +187,11 @@ public class CartController {
         grandTotalLabel.setText(String.format("Total: ₺%.2f", grandTotal));
     }
 
+    /**
+     * Calculates and applies loyalty discount if user has 5 or more completed orders.
+     *
+     * @author Ege Usug
+     */
     private void calculateLoyaltyDiscount() {
         if (currentUser == null) return;
 
@@ -174,6 +206,11 @@ public class CartController {
         }
     }
 
+    /**
+     * Loads available coupons for the current user.
+     *
+     * @author Ege Usug
+     */
     private void loadAvailableCoupons() {
         if (currentUser == null || availableCouponsList == null) {
             return;
@@ -205,6 +242,11 @@ public class CartController {
         }
     }
 
+    /**
+     * Handles applying a coupon code to the cart.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleApplyCoupon() {
         if (currentUser == null) {
@@ -243,6 +285,11 @@ public class CartController {
         loadAvailableCoupons();
     }
 
+    /**
+     * Handles removing selected items from the cart.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleRemove() {
 
@@ -284,6 +331,11 @@ public class CartController {
             updateTotals();
         }
     }
+    /**
+     * Handles the checkout process, including delivery date selection and order placement.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleCheckout() {
 
@@ -357,6 +409,12 @@ public class CartController {
         }
     }
 
+    /**
+     * Shows an order summary dialog.
+     *
+     * @return true if user confirms, false otherwise
+     * @author Ege Usug
+     */
     private boolean showOrderSummary() {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Order Summary");
@@ -413,6 +471,12 @@ public class CartController {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
+    /**
+     * Shows a dialog for selecting delivery date and time (within 48 hours).
+     *
+     * @return The selected delivery date and time, or null if cancelled
+     * @author Ege Usug
+     */
     private LocalDateTime showDeliveryDateTimeDialog() {
         Dialog<LocalDateTime> dialog = new Dialog<>();
         dialog.setTitle("Select Delivery Date & Time");
@@ -494,6 +558,14 @@ public class CartController {
         return result.orElse(null);
     }
 
+    /**
+     * Displays an alert dialog with the specified type, title, and message.
+     *
+     * @param type The type of alert
+     * @param title The title of the alert
+     * @param message The message to display
+     * @author Ege Usug
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

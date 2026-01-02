@@ -90,6 +90,7 @@
                 </TableView>
                 <HBox spacing="10" style="-fx-padding: 10px;">
                     <MFXButton text="View Invoice" onAction="#handleViewInvoice" styleClass="primary-button"/>
+                    <MFXButton text="Download Invoice" onAction="#handleDownloadInvoice" styleClass="primary-button"/>
                     <MFXButton text="Cancel Order" onAction="#handleCancelOrder" styleClass="secondary-button"/>
                 </HBox>
             </VBox>

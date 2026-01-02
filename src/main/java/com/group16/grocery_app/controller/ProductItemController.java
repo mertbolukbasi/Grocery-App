@@ -9,6 +9,12 @@ import javafx.scene.image.ImageView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 
+/**
+ * Controller for individual product item display.
+ * Handles product information display and adding products to the cart.
+ *
+ * @author Ege Usug
+ */
 public class ProductItemController {
 
     @FXML
@@ -28,6 +34,12 @@ public class ProductItemController {
 
     private Product product;
 
+    /**
+     * Sets the product to display and updates the UI.
+     *
+     * @param product The product to set
+     * @author Ege Usug
+     */
     public void setProduct(Product product) {
         this.product = product;
         if (nameLabel != null) {
@@ -39,6 +51,11 @@ public class ProductItemController {
         }
     }
 
+    /**
+     * Updates the price label with the effective price based on cart quantity.
+     *
+     * @author Ege Usug
+     */
     private void updatePriceDisplay() {
         if (product == null) return;
 
@@ -49,10 +66,21 @@ public class ProductItemController {
 
     private Cart cart;
 
+    /**
+     * Sets the cart for price calculation purposes.
+     *
+     * @param cart The cart to set
+     * @author Ege Usug
+     */
     public void setCart(Cart cart) {
         this.cart = cart;
     }
 
+    /**
+     * Handles adding the product to the cart with the specified quantity.
+     *
+     * @author Ege Usug
+     */
     @FXML
     private void handleAddToCart() {
 
@@ -87,6 +115,13 @@ public class ProductItemController {
         quantityField.clear();
     }
 
+    /**
+     * Displays an information alert dialog.
+     *
+     * @param title The title of the alert
+     * @param message The message to display
+     * @author Ege Usug
+     */
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
