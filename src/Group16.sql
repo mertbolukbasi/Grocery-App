@@ -4,7 +4,7 @@ USE Group16;
 CREATE TABLE UserInfo (
     userID INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     role ENUM('customer', 'carrier', 'owner') NOT NULL,
     first_name VARCHAR(50),
     last_name VARCHAR(50),

@@ -221,7 +221,8 @@ public class CustomerController {
         if (user != null) {
             this.cart = cartManager.getCart(user.getId());
         }
-        if (productAccordion != null) {
+        if (productAccordion != null && (allProducts == null || allProducts.isEmpty())) {
+            // Only reload products if they haven't been loaded yet
             allProducts = productService.getAllProducts();
             showProducts(allProducts);
         }

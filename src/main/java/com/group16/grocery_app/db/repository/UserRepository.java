@@ -76,17 +76,47 @@ public class UserRepository {
      * @author Mert Bölükbaşı
      */
     public boolean checkUserForLogin(String username, String password) {
+        if (connection == null) {
+            System.err.println("Database connection is null in checkUserForLogin");
+            return false;
+        }
+        
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            System.err.println("Username or password is empty");
+            return false;
+        }
+
         String hashPassword = PasswordHash.hash(password);
+        System.out.println("Login attempt - Username: " + username + ", Hash length: " + hashPassword.length());
 
         String query = "SELECT userID FROM UserInfo WHERE username = ? AND password = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, username);
+            stmt.setString(1, username.trim());
             stmt.setString(2, hashPassword);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
+                System.out.println("Login successful for username: " + username);
                 return true;
+            } else {
+                // Debug: Check if username exists
+                String checkUserQuery = "SELECT password FROM UserInfo WHERE username = ?";
+                try (PreparedStatement checkStmt = connection.prepareStatement(checkUserQuery)) {
+                    checkStmt.setString(1, username.trim());
+                    ResultSet checkRs = checkStmt.executeQuery();
+                    if (checkRs.next()) {
+                        String storedPassword = checkRs.getString("password");
+                        System.err.println("Username exists but password doesn't match.");
+                        System.err.println("Stored password length: " + (storedPassword != null ? storedPassword.length() : "null"));
+                        System.err.println("Generated hash length: " + hashPassword.length());
+                        System.err.println("Stored password (first 20 chars): " + (storedPassword != null ? storedPassword.substring(0, Math.min(20, storedPassword.length())) : "null"));
+                        System.err.println("Generated hash (first 20 chars): " + hashPassword.substring(0, Math.min(20, hashPassword.length())));
+                    } else {
+                        System.err.println("Username does not exist: " + username);
+                    }
+                }
             }
         } catch (SQLException e) {
+            System.err.println("SQL Error in checkUserForLogin: " + e.getMessage());
             e.printStackTrace();
         }
 
