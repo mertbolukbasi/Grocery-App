@@ -24,6 +24,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.application.Platform;
 
+/**
+ * Handles user login and registration functionality.
+ * Manages form validation and navigation based on user roles.
+ *
+ * @author Mert Bölükbaşı
+ */
 public class LoginController {
 
     private final ValidationSupport validation = new ValidationSupport();
@@ -85,6 +91,12 @@ public class LoginController {
     private UserService userService = new UserService();
     private User loggedInUser;
 
+    /**
+     * Initializes the controller when FXML is loaded.
+     * Sets up form validators and event handlers.
+     *
+     * @author Mert Bölükbaşı
+     */
     @FXML
     public void initialize() {
         validation.registerValidator(usernameInputReg, createUsernameValidator("Username"));
@@ -132,6 +144,13 @@ public class LoginController {
         });
     }
 
+    /**
+     * Creates a validator for name fields that only accepts letters.
+     *
+     * @param fieldName the field name to display in validation messages
+     * @return validator that accepts values with only letters and at least 2 characters
+     * @author Mert Bölükbaşı
+     */
     private Validator<String> createLetterValidator(String fieldName) {
         return (Control c, String value) -> {
             ValidationResult result = new ValidationResult();
@@ -148,6 +167,13 @@ public class LoginController {
         };
     }
 
+    /**
+     * Creates a validator for username format validation.
+     *
+     * @param fieldName the field name to display in validation messages
+     * @return validator that accepts usernames with letters, numbers, underscores, and at least 2 characters
+     * @author Mert Bölükbaşı
+     */
     private Validator<String> createUsernameValidator(String fieldName) {
         return (Control c, String value) -> {
             ValidationResult result = new ValidationResult();
@@ -165,13 +191,10 @@ public class LoginController {
     }
 
     /**
-     * Creates a validator for strong password requirements.
-     * Password must contain:
-     * - At least 8 characters
-     * - At least one uppercase letter
-     * - At least one lowercase letter
-     * - At least one digit
-     * - At least one special character
+     * Creates a validator that enforces strong password requirements.
+     *
+     * @return validator that checks for 8+ chars, uppercase, lowercase, digit, and special character
+     * @author Mert Bölükbaşı
      */
     private Validator<String> createStrongPasswordValidator() {
         return (Control c, String newValue) -> {
@@ -185,27 +208,22 @@ public class LoginController {
             String password = newValue;
             StringBuilder errorMessages = new StringBuilder();
 
-            // Check minimum length
             if (password.length() < 8) {
                 errorMessages.append("Password must be at least 8 characters long. ");
             }
 
-            // Check for uppercase letter
             if (!password.matches(".*[A-Z].*")) {
                 errorMessages.append("Must contain at least one uppercase letter. ");
             }
 
-            // Check for lowercase letter
             if (!password.matches(".*[a-z].*")) {
                 errorMessages.append("Must contain at least one lowercase letter. ");
             }
 
-            // Check for digit
             if (!password.matches(".*[0-9].*")) {
                 errorMessages.append("Must contain at least one digit. ");
             }
 
-            // Check for special character
             if (!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
                 errorMessages.append("Must contain at least one special character (!@#$%^&*...). ");
             }
@@ -219,9 +237,10 @@ public class LoginController {
     }
 
     /**
-     * Sets up async username uniqueness validation.
-     * Checks the database when user stops typing (after a short delay).
-     * Visual feedback is provided through the text field style.
+     * Sets up async username uniqueness check with debounce.
+     * Checks database after user stops typing for 500ms.
+     *
+     * @author Mert Bölükbaşı
      */
     private void setupUsernameUniquenessCheck() {
         usernameInputReg.textProperty().addListener(new ChangeListener<String>() {
@@ -245,12 +264,12 @@ public class LoginController {
                 delayTask = new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
-                        Thread.sleep(500);
+                        Thread.sleep(500); // Delay to avoid checking on every keystroke
                         return null;
                     }
                 };
 
-                delayService = new Service<>() {
+                delayService = new Service<Void>() {
                     @Override
                     protected Task<Void> createTask() {
                         return delayTask;
@@ -273,7 +292,10 @@ public class LoginController {
     }
 
     /**
-     * Checks if username is available in the database and provides visual feedback.
+     * Checks if username exists in database and updates UI style accordingly.
+     *
+     * @param username the username to check for availability
+     * @author Mert Bölükbaşı
      */
     private void checkUsernameAvailability(String username) {
         if (isCheckingUsername) {
@@ -322,11 +344,23 @@ public class LoginController {
         new Thread(task).start();
     }
 
+    /**
+     * Enables or disables the sign in and toggle buttons.
+     *
+     * @param disabled true to disable buttons, false to enable
+     * @author Mert Bölükbaşı
+     */
     private void setButtonsDisabled(boolean disabled) {
         tempButton.setDisable(disabled);
         signInLog.setDisable(disabled);
     }
 
+    /**
+     * Handles user sign in attempt.
+     * Validates credentials and navigates to appropriate view based on user role.
+     *
+     * @author Mert Bölükbaşı
+     */
     @FXML
     private void handleSignIn() {
         String username = usernameInput.getText();
@@ -375,6 +409,12 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handles new user registration.
+     * Validates all fields and creates account if valid.
+     *
+     * @author Mert Bölükbaşı
+     */
     @FXML
     private void handleSignUp() {
         String username = usernameInputReg.getText();
@@ -438,6 +478,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navigates to the customer view after successful login.
+     *
+     * @author Mert Bölükbaşı
+     */
     private void navigateToCustomerView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/customer.fxml"));
@@ -460,6 +505,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navigates to the owner view after successful login.
+     *
+     * @author Mert Bölükbaşı
+     */
     private void navigateToOwnerView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/owner.fxml"));
@@ -478,6 +528,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Navigates to the carrier view after successful login.
+     *
+     * @author Mert Bölükbaşı
+     */
     private void navigateToCarrierView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/carrier.fxml"));
@@ -496,6 +551,14 @@ public class LoginController {
         }
     }
 
+    /**
+     * Shows an alert dialog with the specified type, title, and message.
+     *
+     * @param type the alert type (warning, error, information, etc.)
+     * @param title the alert title
+     * @param message the alert message content
+     * @author Mert Bölükbaşı
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
