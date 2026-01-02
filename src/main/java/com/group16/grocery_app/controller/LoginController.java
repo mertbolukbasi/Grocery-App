@@ -126,13 +126,13 @@ public class LoginController {
             if (isSignUp) {
                 slide.setToX(0);
                 isSignUp = false;
-                helloLabel.setText("Hello, Friend!");
+                helloLabel.setText("Hello!");
                 tempButton.setText("Sign Up");
             } else {
                 double slideDistance = (wrapVBox.getWidth() > 0) ? wrapVBox.getWidth() : 380;
                 slide.setToX(-slideDistance);
                 isSignUp = true;
-                helloLabel.setText("Welcome Back!");
+                helloLabel.setText("Welcome!");
                 tempButton.setText("Sign In");
             }
 
