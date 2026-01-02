@@ -13,7 +13,7 @@
         stylesheets="@productItem.css"
         xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.group16.grocery_app.controller.productItem_Controller">
+        fx:controller="com.group16.grocery_app.controller.ProductItemController">
 
     <ImageView fx:id="productImageView"
                fitHeight="50"

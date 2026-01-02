@@ -21,10 +21,30 @@ public class Product {
         this.image = image;
     }
 
+    public double getEffectivePrice() {
+        if (stock <= threshold) {
+            return price * 2;
+        }
+        return price;
+    }
+
+    public double getEffectivePrice(double cartQuantity) {
+        double remainingStock = stock - cartQuantity;
+        if (remainingStock <= threshold) {
+            return price * 2;
+        }
+        return price;
+    }
+
     public int getId() { return id; }
     public String getName() { return name; }
     public ProductType getType() { return type; }
     public double getPrice() { return price; }
     public double getStock() { return stock; }
+    public double getThreshold() { return threshold; }
     public Image getImage() { return image; }
+
+    public void setPrice(double price) { this.price = price; }
+    public void setStock(double stock) { this.stock = stock; }
+    public void setThreshold(double threshold) { this.threshold = threshold; }
 }

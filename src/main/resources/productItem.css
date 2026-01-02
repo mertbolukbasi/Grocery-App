@@ -1,4 +1,4 @@
-@import url('../appStyles.css');
+@import url('appStyles.css');
 
 .add-button {
     -fx-border-radius: 20px;

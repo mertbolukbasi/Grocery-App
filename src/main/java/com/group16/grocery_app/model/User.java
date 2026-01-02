@@ -3,6 +3,7 @@ package com.group16.grocery_app.model;
 public class User {
     private int id;
     private String username;
+    @SuppressWarnings("unused")
     private String password;
     private Role role;
     private String firstName;
@@ -29,5 +30,10 @@ public class User {
     public Role getRole() { return role; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
+    public String getAddress() { return address; }
+    public String getPhoneNumber() { return phoneNumber; }
     public int getLoyaltyPoints() { return loyaltyPoints; }
+
+    public void setAddress(String address) { this.address = address; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }

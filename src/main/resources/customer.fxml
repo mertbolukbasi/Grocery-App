@@ -8,11 +8,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 
-<BorderPane prefHeight="540" prefWidth="960" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.customerController">
+<BorderPane prefHeight="540" prefWidth="960" stylesheets="@app.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group16.grocery_app.controller.CustomerController">
     <style>
         -fx-background-color: #F5F5F5;
     </style>

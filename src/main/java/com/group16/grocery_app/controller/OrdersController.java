@@ -340,7 +340,7 @@ public class OrdersController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/customer.fxml"));
             Parent root = loader.load();
-            customerController controller = loader.getController();
+            CustomerController controller = loader.getController();
             controller.setCurrentUser(currentUser);
             controller.setUsername(currentUser.getUsername());
 

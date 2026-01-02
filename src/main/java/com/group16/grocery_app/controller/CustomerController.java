@@ -28,8 +28,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.Objects;
 
-public class customerController {
+public class CustomerController {
 
     private Cart cart;
     private final ProductService productService = new ProductService();
@@ -132,7 +133,7 @@ public class customerController {
 
             HBox productItem = loader.load();
 
-            productItem_Controller controller = loader.getController();
+            ProductItemController controller = loader.getController();
             controller.setProduct(product);
             controller.setCart(cart);
 
@@ -462,7 +463,7 @@ public class customerController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.getDialogPane().getStylesheets().add(
-                getClass().getResource("/app.css").toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/app.css")).toExternalForm()
         );
         alert.showAndWait();
     }

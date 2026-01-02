@@ -36,7 +36,7 @@ public class ProductRepository {
                 products.add(new Product(
                         rs.getInt("productID"),
                         rs.getString("name"),
-                        rs.getObject("type", ProductType.class),
+                        ProductType.valueOf(rs.getString("type").toUpperCase()),
                         rs.getDouble("price"),
                         rs.getDouble("stock"),
                         rs.getDouble("threshold"),
@@ -47,5 +47,41 @@ public class ProductRepository {
             throw new SQLException("Product could not find.", e.getMessage());
         }
         return products;
+    }
+
+    public boolean addProduct(String name, ProductType type, double price, double stock, double threshold) throws SQLException {
+        String query = "INSERT INTO ProductInfo (name, type, price, stock, threshold) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            stmt.setString(2, type.toString().toLowerCase());
+            stmt.setDouble(3, price);
+            stmt.setDouble(4, stock);
+            stmt.setDouble(5, threshold);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
+    public boolean updateProduct(int productId, String name, ProductType type, double price, double stock, double threshold) throws SQLException {
+        String query = "UPDATE ProductInfo SET name = ?, type = ?, price = ?, stock = ?, threshold = ? WHERE productID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            stmt.setString(2, type.toString().toLowerCase());
+            stmt.setDouble(3, price);
+            stmt.setDouble(4, stock);
+            stmt.setDouble(5, threshold);
+            stmt.setInt(6, productId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
+    public boolean removeProduct(int productId) throws SQLException {
+        String query = "DELETE FROM ProductInfo WHERE productID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, productId);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
     }
 }

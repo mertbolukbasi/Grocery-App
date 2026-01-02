@@ -9,7 +9,7 @@ import javafx.scene.image.ImageView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 
-public class productItem_Controller {
+public class ProductItemController {
 
     @FXML
     private Label nameLabel;

@@ -443,7 +443,7 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/customer.fxml"));
             Parent root = loader.load();
 
-            customerController controller = loader.getController();
+            CustomerController controller = loader.getController();
             controller.setCurrentUser(loggedInUser);
             controller.setUsername(loggedInUser.getUsername());
 

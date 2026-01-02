@@ -1,3 +1,7 @@
+.root {
+    -fx-text-background-color: #333333;
+}
+
 .primary-button {
     -fx-border-radius: 25px;
     -fx-border-style: solid;
