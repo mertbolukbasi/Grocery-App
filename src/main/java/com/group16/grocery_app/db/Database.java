@@ -4,34 +4,16 @@ import java.sql.*;
 
 public class Database {
 
-    /**
-     * Database URL.
-     */
     private final String DB_URL = "jdbc:mysql://localhost:3306/Group16";
 
-    /**
-     * Database Username.
-     */
     private final String DB_USER = "myuser";
 
-    /**
-     * Database Password.
-     */
     private final String DB_PASSWORD = "1234";
 
-    /**
-     * Database object instance to use singleton pattern.
-     */
     private static Database instance;
 
-    /**
-     * Database connection object.
-     */
     private Connection connection;
 
-    /**
-     * Database object constructor. It creates database connection.
-     */
     private Database() {
         try {
             // Load MySQL JDBC driver
@@ -49,7 +31,9 @@ public class Database {
 
     /**
      * Returns database singleton object.
+     *
      * @return Database object instance.
+     * @author Mert Bölükbaşı
      */
     public static Database getInstance() {
         if (instance == null) {
