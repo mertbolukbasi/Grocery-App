@@ -305,13 +305,28 @@ public class CustomerController {
     private void handleMyOrders() {
         try {
             if (currentUser == null) {
-                showAlert(Alert.AlertType.WARNING, "Error", "User information is missing.");
+                showAlert(Alert.AlertType.WARNING, "Error", "User information is missing. Please log in again.");
+                return;
+            }
+
+            if (usernameLabel == null || usernameLabel.getScene() == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Unable to access the current window.");
                 return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/orders.fxml"));
+            if (loader.getLocation() == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Orders view file not found.");
+                return;
+            }
+
             Parent root = loader.load();
             OrdersController controller = loader.getController();
+            if (controller == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to initialize orders controller.");
+                return;
+            }
+            
             controller.setCurrentUser(currentUser);
 
             Stage stage = (Stage) usernameLabel.getScene().getWindow();
@@ -320,9 +335,12 @@ public class CustomerController {
             stage.setTitle("Group16 GreenGrocer - My Orders");
             stage.centerOnScreen();
             stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load orders view: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load orders.");
+            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred: " + e.getMessage());
         }
     }
 

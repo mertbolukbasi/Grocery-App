@@ -341,6 +341,45 @@ public class OrdersController {
     }
 
     /**
+     * Generates and downloads a PDF invoice for the selected order.
+     * @author Oğuzhan Aydın
+     */
+    @FXML
+    private void handleDownloadInvoice() {
+        Order selected = ordersTable.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an order to download invoice.");
+            return;
+        }
+
+        try {
+            User customer = userService.findById(selected.getCustomerId());
+            String customerName = customer != null ?
+                    (customer.getFirstName() + " " + customer.getLastName()) : "Unknown Customer";
+            String customerAddress = customer != null ? customer.getAddress() : "";
+
+            byte[] pdfBytes = com.group16.grocery_app.utils.InvoiceGenerator.generateInvoicePDF(
+                    selected, customerName, customerAddress);
+
+            javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+            fileChooser.setTitle("Save Invoice");
+            fileChooser.setInitialFileName("invoice_" + selected.getId() + ".pdf");
+            fileChooser.getExtensionFilters().add(
+                    new javafx.stage.FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+
+            java.io.File file = fileChooser.showSaveDialog(ordersTable.getScene().getWindow());
+            if (file != null) {
+                java.nio.file.Files.write(file.toPath(), pdfBytes);
+                showAlert(Alert.AlertType.INFORMATION, "Success", 
+                        "Invoice downloaded successfully to: " + file.getAbsolutePath());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to download PDF invoice: " + e.getMessage());
+        }
+    }
+
+    /**
      * Cancels the selected order if its status is still Pending.
      * @author Oğuzhan Aydın
      */

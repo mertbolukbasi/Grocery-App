@@ -17,6 +17,15 @@ public class InvoiceGenerator {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    /**
+     * Generates a text invoice for an order.
+     *
+     * @param order the order to generate invoice for
+     * @param customerName the customer's name
+     * @param customerAddress the customer's address
+     * @return the invoice as a formatted text string
+     * @author Ege Usug
+     */
     public static String generateInvoiceText(Order order, String customerName, String customerAddress) {
         StringJoiner invoice = new StringJoiner("\n");
 
@@ -65,6 +74,16 @@ public class InvoiceGenerator {
         return invoice.toString();
     }
 
+    /**
+     * Generates a PDF invoice for an order.
+     *
+     * @param order the order to generate invoice for
+     * @param customerName the customer's name
+     * @param customerAddress the customer's address
+     * @return the invoice as a PDF byte array
+     * @throws IOException if an error occurs while generating the PDF
+     * @author Ege Usug
+     */
     public static byte[] generateInvoicePDF(Order order, String customerName, String customerAddress) throws IOException {
         PDDocument document = new PDDocument();
         PDPage page = new PDPage();
