@@ -23,6 +23,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controller class for managing the customer's order history.
+ * Handles viewing past orders, order details, invoices, and cancellations.
+ * @author Oğuzhan Aydın
+ */
 public class OrdersController {
 
     private User currentUser;
@@ -71,12 +76,21 @@ public class OrdersController {
 
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    /**
+     * Sets the current user and loads their order history.
+     * @param user The logged-in customer.
+     * @author Oğuzhan Aydın
+     */
     public void setCurrentUser(User user) {
         this.currentUser = user;
         this.orderService = new OrderService();
         loadOrders();
     }
 
+    /**
+     * Initializes the controller, sets up tables and selection listeners.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     public void initialize() {
         setupOrdersTable();
@@ -91,6 +105,10 @@ public class OrdersController {
         });
     }
 
+    /**
+     * Configures the main orders table columns and the rating button.
+     * @author Oğuzhan Aydın
+     */
     private void setupOrdersTable() {
         orderIdCol.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getId()));
         dateCol.setCellValueFactory(data -> {
@@ -157,6 +175,11 @@ public class OrdersController {
         }
     }
 
+    /**
+     * Displays a dialog to allow the customer to rate the carrier.
+     * @param order The order to be rated.
+     * @author Oğuzhan Aydın
+     */
     private void showRatingDialog(Order order) {
         Dialog<Integer> dialog = new Dialog<>();
         dialog.setTitle("Rate Carrier");
@@ -209,6 +232,10 @@ public class OrdersController {
         });
     }
 
+    /**
+     * Configures the columns for the order items details table.
+     * @author Oğuzhan Aydın
+     */
     private void setupItemsTable() {
         itemNameCol.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getProduct().getName()));
         itemQuantityCol.setCellValueFactory(data -> new SimpleDoubleProperty(data.getValue().getQuantity()).asObject());
@@ -252,6 +279,10 @@ public class OrdersController {
         });
     }
 
+    /**
+     * Loads all orders for the current customer from the database.
+     * @author Oğuzhan Aydın
+     */
     private void loadOrders() {
         if (currentUser == null) {
             return;
@@ -261,12 +292,21 @@ public class OrdersController {
         ordersTable.setItems(orders);
     }
 
+    /**
+     * Shows the items of the selected order in the details panel.
+     * @param order The selected order.
+     * @author Oğuzhan Aydın
+     */
     private void showOrderDetails(Order order) {
         orderDetailsBox.setVisible(true);
         ObservableList<OrderItem> items = FXCollections.observableArrayList(order.getItems());
         itemsTable.setItems(items);
     }
 
+    /**
+     * Generates and opens a PDF invoice for the selected order.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleViewInvoice() {
         Order selected = ordersTable.getSelectionModel().getSelectedItem();
@@ -300,6 +340,10 @@ public class OrdersController {
         }
     }
 
+    /**
+     * Cancels the selected order if its status is still Pending.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleCancelOrder() {
         Order selected = ordersTable.getSelectionModel().getSelectedItem();
@@ -335,6 +379,10 @@ public class OrdersController {
         });
     }
 
+    /**
+     * Returns the user to the main customer dashboard.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleBack() {
         try {
@@ -356,6 +404,13 @@ public class OrdersController {
         }
     }
 
+    /**
+     * Displays an alert dialog with the given type, title, and message.
+     * @param type The type of the alert (e.g., Error, Information).
+     * @param title The title of the alert window.
+     * @param message The content message.
+     * @author Oğuzhan Aydın
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

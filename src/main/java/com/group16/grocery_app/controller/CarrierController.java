@@ -21,6 +21,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controller for carrier interface managing order selection and delivery.
+ * @author Oğuzhan Aydın
+ */
 public class CarrierController {
 
     private User currentUser;
@@ -46,6 +50,11 @@ public class CarrierController {
     @FXML private VBox orderDetailsBox;
     @FXML private Label orderDetailsLabel;
 
+    /**
+     * Sets the current logged-in carrier user.
+     * @param user the carrier user
+     * @author Oğuzhan Aydın
+     */
     public void setCurrentUser(User user) {
         this.currentUser = user;
         if (carrierUsernameLabel != null) {
@@ -54,6 +63,10 @@ public class CarrierController {
         initialize();
     }
 
+    /**
+     * Initializes the controller and sets up tables.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     public void initialize() {
         if (currentUser == null) return;
@@ -82,6 +95,10 @@ public class CarrierController {
         });
     }
 
+    /**
+     * Configures the columns and formatting for the available orders table.
+     * @author Oğuzhan Aydın
+     */
     private void setupAvailableOrdersTable() {
         if (availableOrdersTable == null) return;
 
@@ -101,6 +118,10 @@ public class CarrierController {
         });
     }
 
+    /**
+     * Configures the columns for the selected orders table.
+     * @author Oğuzhan Aydın
+     */
     private void setupSelectedOrdersTable() {
         if (selectedOrdersTable == null) return;
 
@@ -109,6 +130,10 @@ public class CarrierController {
         selAddressCol.setCellValueFactory(data -> new SimpleStringProperty("See details"));
     }
 
+    /**
+     * Configures the columns and rating display for the completed orders table.
+     * @author Oğuzhan Aydın
+     */
     private void setupCompletedOrdersTable() {
         if (completedOrdersTable == null) return;
 
@@ -136,6 +161,11 @@ public class CarrierController {
         });
     }
 
+    /**
+     * Fetches available, selected, and completed orders from the service.
+     * Populates the tables with the retrieved data.
+     * @author Oğuzhan Aydın
+     */
     private void loadOrders() {
         if (currentUser == null) return;
 
@@ -165,6 +195,11 @@ public class CarrierController {
         }
     }
 
+    /**
+     * Displays detailed information about the selected order in the side panel.
+     * @param order The order to display details for.
+     * @author Oğuzhan Aydın
+     */
     private void showOrderDetails(Order order) {
         if (orderDetailsBox == null || order == null) return;
 
@@ -200,6 +235,10 @@ public class CarrierController {
         orderDetailsBox.getChildren().add(detailsBox);
     }
 
+    /**
+     * Handles the action of assigning an available order to the current carrier.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleSelectOrder() {
         Order selected = availableOrdersTable.getSelectionModel().getSelectedItem();
@@ -228,6 +267,11 @@ public class CarrierController {
         }
     }
 
+    /**
+     * Removes the currently selected order from the carrier's list.
+     * Returns the order to the available pool.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleUnselectOrder() {
         Order selected = selectedOrdersTable.getSelectionModel().getSelectedItem();
@@ -265,6 +309,10 @@ public class CarrierController {
         });
     }
 
+    /**
+     * Marks the selected order as delivered and records the delivery time.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleCompleteDelivery() {
         Order selected = selectedOrdersTable.getSelectionModel().getSelectedItem();
@@ -327,6 +375,10 @@ public class CarrierController {
         });
     }
 
+    /**
+     * Logs out the current user and returns to the login screen.
+     * @author Oğuzhan Aydın
+     */
     @FXML
     private void handleLogout() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -356,6 +408,13 @@ public class CarrierController {
         });
     }
 
+    /**
+     * Displays an alert dialog with a specific message.
+     * @param type The type of alert (Warning, Information, etc.).
+     * @param title The title of the alert window.
+     * @param message The content message to display.
+     * @author Oğuzhan Aydın
+     */
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

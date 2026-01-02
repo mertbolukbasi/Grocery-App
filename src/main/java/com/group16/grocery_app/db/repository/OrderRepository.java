@@ -15,17 +15,42 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles all database operations related to orders.
+ * Includes saving orders, fetching history, managing status updates, and ratings.
+ * @author Oğuzhan Aydın
+ */
 public class OrderRepository {
     private final Connection connection;
 
+    /**
+     * Initializes the repository with a database connection.
+     * @author Oğuzhan Aydın
+     */
     public OrderRepository() {
         this.connection = Database.getInstance().getConnection();
     }
 
+    /**
+     * Saves a new order with the current timestamp as the order date.
+     * @param order The order object containing items and total cost.
+     * @param customerId The ID of the customer placing the order.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public void saveOrder(Order order, int customerId) throws SQLException {
         saveOrder(order, customerId, null);
     }
 
+    /**
+     * Saves a new order to the database with transaction support.
+     * Updates product stock levels and inserts order items.
+     * @param order The order to be saved.
+     * @param customerId The ID of the customer.
+     * @param deliveryDate Optional scheduled delivery date.
+     * @throws SQLException If saving fails or stock is insufficient.
+     * @author Oğuzhan Aydın
+     */
     public void saveOrder(Order order, int customerId, java.time.LocalDateTime deliveryDate) throws SQLException {
         try {
             connection.setAutoCommit(false);
@@ -96,6 +121,13 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Retrieves all orders placed by a specific customer.
+     * @param customerId The ID of the customer.
+     * @return A list of orders sorted by date.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public ObservableList<Order> getOrdersByCustomerId(int customerId) throws SQLException {
         List<Order> orders = new ArrayList<>();
 
@@ -131,14 +163,35 @@ public class OrderRepository {
         return FXCollections.observableArrayList(orders);
     }
 
+    /**
+     * Retrieves all orders in the system.
+     * @return A list of all orders.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public ObservableList<Order> getAllOrders() throws SQLException {
         return getOrdersByStatus(null);
     }
 
+    /**
+     * Retrieves orders filtered by their status.
+     * @param status The status to filter by (e.g., "Pending").
+     * @return A list of matching orders.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public ObservableList<Order> getOrdersByStatus(String status) throws SQLException {
         return getOrdersByStatus(status, false);
     }
 
+    /**
+     * Retrieves orders based on status and assignment availability.
+     * @param status The status to filter by.
+     * @param includeOnlyUnassigned If true, returns only orders not yet assigned to a carrier.
+     * @return A list of matching orders.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public ObservableList<Order> getOrdersByStatus(String status, boolean includeOnlyUnassigned) throws SQLException {
         List<Order> orders = new ArrayList<>();
 
@@ -190,6 +243,14 @@ public class OrderRepository {
         return FXCollections.observableArrayList(orders);
     }
 
+    /**
+     * Retrieves orders assigned to a specific carrier.
+     * @param carrierId The ID of the carrier.
+     * @param status Optional status filter (e.g., "Delivered").
+     * @return A list of orders assigned to the carrier.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public ObservableList<Order> getOrdersByCarrierId(int carrierId, String status) throws SQLException {
         List<Order> orders = new ArrayList<>();
         String orderQuery = "SELECT orderID, customerID, carrierID, order_date, delivery_date, status, total_cost, carrier_rating " +
@@ -232,6 +293,13 @@ public class OrderRepository {
         return FXCollections.observableArrayList(orders);
     }
 
+    /**
+     * Loads product details for a list of orders.
+     * Populates the order objects with their respective items.
+     * @param orders The list of orders to populate.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     private void loadOrderItems(List<Order> orders) throws SQLException {
         if (orders.isEmpty()) return;
 
@@ -297,6 +365,14 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Assigns a pending order to a carrier.
+     * @param orderId The ID of the order.
+     * @param carrierId The ID of the carrier accepting the order.
+     * @return True if successful, false otherwise.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public boolean selectOrder(int orderId, int carrierId) throws SQLException {
         String query = "UPDATE OrderInfo SET carrierID = ?, status = 'Selected' WHERE orderID = ? AND status = 'Pending'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -307,6 +383,14 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Unassigns an order from a carrier, making it pending again.
+     * @param orderId The ID of the order.
+     * @param carrierId The ID of the carrier currently assigned.
+     * @return True if successful, false otherwise.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public boolean unselectOrder(int orderId, int carrierId) throws SQLException {
         String query = "UPDATE OrderInfo SET carrierID = NULL, status = 'Pending' WHERE orderID = ? AND carrierID = ? AND status = 'Selected'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -317,6 +401,14 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Marks an order as delivered and updates the delivery time.
+     * @param orderId The ID of the order.
+     * @param deliveryDateTime The actual delivery time.
+     * @return True if successful, false otherwise.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public boolean completeDelivery(int orderId, LocalDateTime deliveryDateTime) throws SQLException {
         String query = "UPDATE OrderInfo SET status = 'Delivered', delivery_date = ? WHERE orderID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -327,6 +419,14 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Updates the carrier rating for a completed order.
+     * @param orderId The ID of the order.
+     * @param rating The rating value (1-5).
+     * @return True if successful, false otherwise.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public boolean rateCarrier(int orderId, int rating) throws SQLException {
         if (rating < 1 || rating > 5) {
             return false;
@@ -340,6 +440,14 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Saves the generated invoice text to the database.
+     * @param orderId The ID of the order.
+     * @param invoiceText The content of the invoice.
+     * @return True if successful.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public boolean saveInvoice(int orderId, String invoiceText) throws SQLException {
         String query = "UPDATE OrderInfo SET invoice_data = ? WHERE orderID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -350,6 +458,13 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * Retrieves the stored invoice data for an order.
+     * @param orderId The ID of the order.
+     * @return The invoice text, or null if not found.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public String getInvoice(int orderId) throws SQLException {
         String query = "SELECT invoice_data FROM OrderInfo WHERE orderID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -362,6 +477,13 @@ public class OrderRepository {
         return null;
     }
 
+    /**
+     * Counts the total number of completed orders for a customer.
+     * @param customerId The ID of the customer.
+     * @return The count of delivered orders.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public int getCompletedOrdersCount(int customerId) throws SQLException {
         String query = "SELECT COUNT(*) FROM OrderInfo WHERE customerID = ? AND status = 'Delivered'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -374,6 +496,13 @@ public class OrderRepository {
         return 0;
     }
 
+    /**
+     * Calculates the average rating for a carrier.
+     * @param carrierId The ID of the carrier.
+     * @return The average rating, or -1.0 if no ratings exist.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public double getAverageCarrierRating(int carrierId) throws SQLException {
         String query = "SELECT AVG(carrier_rating) FROM OrderInfo WHERE carrierID = ? AND carrier_rating IS NOT NULL";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -391,6 +520,14 @@ public class OrderRepository {
         return -1.0;
     }
 
+    /**
+     * Cancels a pending order for a customer.
+     * @param orderId The ID of the order.
+     * @param customerId The ID of the customer requesting cancellation.
+     * @return True if successful, false if order is not pending.
+     * @throws SQLException If a database error occurs.
+     * @author Oğuzhan Aydın
+     */
     public boolean cancelOrder(int orderId, int customerId) throws SQLException {
         String query = "UPDATE OrderInfo SET status = 'Cancelled' WHERE orderID = ? AND customerID = ? AND status = 'Pending'";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
