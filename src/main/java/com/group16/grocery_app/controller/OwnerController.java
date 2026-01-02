@@ -1146,7 +1146,7 @@ public class OwnerController {
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/group16/grocery_app/LoginView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginView.fxml"));
                     Parent root = loader.load();
                     Stage stage = (Stage) (ownerUsernameLabel != null ? ownerUsernameLabel.getScene().getWindow() :
                             productsTable.getScene().getWindow());

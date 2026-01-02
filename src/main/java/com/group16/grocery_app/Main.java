@@ -18,7 +18,7 @@ public class Main extends Application {
                 .setResolveAssets(true)
                 .build()
                 .setGlobal();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("LoginView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/LoginView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 960, 540);
         stage.setTitle("Hello!");
 

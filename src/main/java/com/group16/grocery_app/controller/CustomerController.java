@@ -279,7 +279,7 @@ public class CustomerController {
                     if (currentUser != null) {
                         cartManager.clearCart(currentUser.getId());
                     }
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/group16/grocery_app/LoginView.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginView.fxml"));
                     Parent root = loader.load();
 
                     Stage stage = (Stage) usernameLabel.getScene().getWindow();
