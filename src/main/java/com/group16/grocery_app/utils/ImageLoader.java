@@ -9,8 +9,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Utility to populate the database with product images found in the resources folder.
+ *
+ * @author Mert Bölükbaşı
+ */
 public class ImageLoader {
 
+    /**
+     * Scans the database for products missing images and tries to update them
+     * by matching filenames in the resource path.
+     *
+     * @author Mert Bölükbaşı
+     */
     public static void loadImagesToDatabase() {
         Connection connection = Database.getInstance().getConnection();
         if (connection == null) {
@@ -44,7 +55,7 @@ public class ImageLoader {
                         try {
                             is.close();
                         } catch (IOException e) {
-                            // ignore
+
                         }
                     }
                 } else {
@@ -58,8 +69,15 @@ public class ImageLoader {
         }
     }
 
+    /**
+     * Helper to locate an image file for a given product name.
+     * It tries various extensions (jpg, png, etc.) and casing formats to find a match.
+     *
+     * @param name The product name to search for.
+     * @return An InputStream of the image, or null if not found.
+     */
     private static InputStream findImageStream(String name) {
-        String[] extensions = {".jpg", ".png", ".jpeg", ".JPG", ".webp"};
+        String[] extensions = {".jpg", ".png", ".jpeg", ".JPG"};
         Class<?> clazz = ImageLoader.class;
 
         for (String ext : extensions) {
