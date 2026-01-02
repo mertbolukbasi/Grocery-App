@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 
@@ -49,28 +52,50 @@ public class ProductRepository {
         return products;
     }
 
-    public boolean addProduct(String name, ProductType type, double price, double stock, double threshold) throws SQLException {
-        String query = "INSERT INTO ProductInfo (name, type, price, stock, threshold) VALUES (?, ?, ?, ?, ?)";
+    public boolean addProduct(String name, ProductType type, double price, double stock, double threshold, File imageFile) throws SQLException {
+        String query = "INSERT INTO ProductInfo (name, type, price, stock, threshold, image_data) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, name);
             stmt.setString(2, type.toString().toLowerCase());
             stmt.setDouble(3, price);
             stmt.setDouble(4, stock);
             stmt.setDouble(5, threshold);
+            
+            if (imageFile != null && imageFile.exists()) {
+                try (FileInputStream fis = new FileInputStream(imageFile)) {
+                    stmt.setBinaryStream(6, fis, (int) imageFile.length());
+                } catch (IOException e) {
+                    throw new SQLException("Failed to read image file: " + e.getMessage(), e);
+                }
+            } else {
+                stmt.setNull(6, Types.BLOB);
+            }
+            
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         }
     }
 
-    public boolean updateProduct(int productId, String name, ProductType type, double price, double stock, double threshold) throws SQLException {
-        String query = "UPDATE ProductInfo SET name = ?, type = ?, price = ?, stock = ?, threshold = ? WHERE productID = ?";
+    public boolean updateProduct(int productId, String name, ProductType type, double price, double stock, double threshold, File imageFile) throws SQLException {
+        String query = "UPDATE ProductInfo SET name = ?, type = ?, price = ?, stock = ?, threshold = ?, image_data = ? WHERE productID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, name);
             stmt.setString(2, type.toString().toLowerCase());
             stmt.setDouble(3, price);
             stmt.setDouble(4, stock);
             stmt.setDouble(5, threshold);
-            stmt.setInt(6, productId);
+            
+            if (imageFile != null && imageFile.exists()) {
+                try (FileInputStream fis = new FileInputStream(imageFile)) {
+                    stmt.setBinaryStream(6, fis, (int) imageFile.length());
+                } catch (IOException e) {
+                    throw new SQLException("Failed to read image file: " + e.getMessage(), e);
+                }
+            } else {
+                stmt.setNull(6, Types.BLOB);
+            }
+            
+            stmt.setInt(7, productId);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         }

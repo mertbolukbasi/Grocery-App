@@ -23,11 +23,15 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
 public class OwnerController {
 
@@ -533,13 +537,67 @@ public class OwnerController {
         TextField stockField = new TextField(product != null ? String.valueOf(product.getStock()) : "");
         TextField thresholdField = new TextField(product != null ? String.valueOf(product.getThreshold()) : "");
 
+        // Image selection components
+        javafx.scene.control.Button selectImageButton = new javafx.scene.control.Button("Select Image");
+        Label imagePathLabel = new Label("No image selected");
+        imagePathLabel.setWrapText(true);
+        imagePathLabel.setMaxWidth(300);
+        
+        ImageView imagePreview = new ImageView();
+        imagePreview.setFitWidth(150);
+        imagePreview.setFitHeight(150);
+        imagePreview.setPreserveRatio(true);
+        imagePreview.setStyle("-fx-border-color: #CCCCCC; -fx-border-width: 1px;");
+        
+        // Show existing image if updating
+        if (product != null && product.getImage() != null) {
+            imagePreview.setImage(product.getImage());
+            imagePathLabel.setText("Current product image");
+        }
+        
+        final File[] selectedImageFile = {null};
+        
+        selectImageButton.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Product Image");
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp")
+            );
+            
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            File file = fileChooser.showOpenDialog(stage);
+            
+            if (file != null) {
+                selectedImageFile[0] = file;
+                imagePathLabel.setText("Selected: " + file.getName());
+                
+                // Preview the selected image
+                try {
+                    Image previewImage = new Image(file.toURI().toString());
+                    imagePreview.setImage(previewImage);
+                } catch (Exception ex) {
+                    showAlert(Alert.AlertType.WARNING, "Image Error", "Could not load image preview: " + ex.getMessage());
+                }
+            }
+        });
+
+        VBox imageBox = new VBox(5);
+        imageBox.getChildren().addAll(
+            new Label("Product Image:"),
+            selectImageButton,
+            imagePathLabel,
+            imagePreview
+        );
+
         VBox content = new VBox(10);
         content.getChildren().addAll(
                 new Label("Name:"), nameField,
                 new Label("Type:"), typeCombo,
                 new Label("Price:"), priceField,
                 new Label("Stock:"), stockField,
-                new Label("Threshold:"), thresholdField
+                new Label("Threshold:"), thresholdField,
+                new javafx.scene.control.Separator(),
+                imageBox
         );
         content.setPadding(new javafx.geometry.Insets(20));
 
@@ -553,7 +611,7 @@ public class OwnerController {
                 double stock = Double.parseDouble(stockField.getText());
                 double threshold = Double.parseDouble(thresholdField.getText());
 
-                if (price <= 0 || stock < 0 || threshold < 0) {
+                if (price <= 0 || stock < 0 || threshold <= 0) {
                     showAlert(Alert.AlertType.ERROR, "Invalid Input", "All numeric values must be positive.");
                     event.consume();
                     return;
@@ -561,10 +619,16 @@ public class OwnerController {
 
                 ProductType type = ProductType.valueOf(typeCombo.getValue());
                 boolean success;
+                
+                // Use selected image file, or null if no new image selected
+                File imageFile = selectedImageFile[0];
+                
                 if (product == null) {
-                    success = productService.addProduct(nameField.getText(), type, price, stock, threshold);
+                    success = productService.addProduct(nameField.getText(), type, price, stock, threshold, imageFile);
                 } else {
-                    success = productService.updateProduct(product.getId(), nameField.getText(), type, price, stock, threshold);
+                    // If updating and no new image selected, keep existing image (pass null)
+                    // If new image selected, update with new image
+                    success = productService.updateProduct(product.getId(), nameField.getText(), type, price, stock, threshold, imageFile);
                 }
 
                 if (success) {

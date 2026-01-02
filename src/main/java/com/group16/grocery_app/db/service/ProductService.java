@@ -23,18 +23,18 @@ public class ProductService {
         }
     }
 
-    public boolean addProduct(String name, com.group16.grocery_app.model.ProductType type, double price, double stock, double threshold) {
+    public boolean addProduct(String name, com.group16.grocery_app.model.ProductType type, double price, double stock, double threshold, java.io.File imageFile) {
         try {
-            return productRepository.addProduct(name, type, price, stock, threshold);
+            return productRepository.addProduct(name, type, price, stock, threshold, imageFile);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public boolean updateProduct(int productId, String name, com.group16.grocery_app.model.ProductType type, double price, double stock, double threshold) {
+    public boolean updateProduct(int productId, String name, com.group16.grocery_app.model.ProductType type, double price, double stock, double threshold, java.io.File imageFile) {
         try {
-            return productRepository.updateProduct(productId, name, type, price, stock, threshold);
+            return productRepository.updateProduct(productId, name, type, price, stock, threshold, imageFile);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
